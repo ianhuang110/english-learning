@@ -74,6 +74,7 @@ header p {
 
 .btn-primary,
 .btn-secondary,
+.btn-warning,
 .btn-success {
     padding: 0.75rem 1.5rem;
     border: none;
@@ -114,6 +115,16 @@ header p {
 
 .btn-success:hover {
     opacity: 0.9;
+    transform: translateY(-2px);
+}
+
+.btn-warning {
+    background: #ff9f43;
+    color: white;
+}
+
+.btn-warning:hover {
+    background: #ee5253;
     transform: translateY(-2px);
 }
 
@@ -225,6 +236,196 @@ textarea {
     grid-column: 1 / -1;
     padding: 4rem;
     color: var(--text-muted);
+}
+
+
+/* ==========================================================================
+   Quiz Game Styles
+   ========================================================================== */
+
+.quiz-overlay:not(.hidden) {
+    display: flex;
+}
+
+.quiz-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    display: none;
+    /* Default to none, .quiz-overlay:not(.hidden) will set flex */
+}
+
+.quiz-container {
+    width: 100%;
+    max-width: 800px;
+    max-height: 90vh;
+    padding: 30px;
+    border-radius: 24px;
+    overflow-y: auto;
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    background: rgba(255, 255, 255, 0.85);
+}
+
+.quiz-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.quiz-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: var(--primary);
+}
+
+.btn-close {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #666;
+    line-height: 1;
+    padding: 0 10px;
+    transition: color 0.3s;
+}
+
+.btn-close:hover {
+    color: var(--danger);
+}
+
+#quiz-question-area {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 16px;
+}
+
+.quiz-sentence {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: #2d3436;
+}
+
+.quiz-translation {
+    font-size: 1.2rem;
+    color: #636e72;
+}
+
+.quiz-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+@media (max-width: 600px) {
+    .quiz-options {
+        grid-template-columns: 1fr;
+    }
+}
+
+.quiz-option {
+    padding: 15px 20px;
+    background: white;
+    border: 2px solid #dfe6e9;
+    border-radius: 12px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: center;
+}
+
+.quiz-option:hover {
+    border-color: var(--primary);
+    background: rgba(9, 132, 227, 0.05);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(9, 132, 227, 0.15);
+}
+
+.quiz-option:active {
+    transform: translateY(0);
+}
+
+/* 結算畫面 */
+#quiz-result-area {
+    text-align: center;
+}
+
+.result-summary {
+    margin-bottom: 30px;
+}
+
+.accuracy-score {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin: 20px 0;
+}
+
+.result-list {
+    max-height: 300px;
+    overflow-y: auto;
+    text-align: left;
+    margin-bottom: 30px;
+    padding: 0 10px;
+}
+
+.result-item {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    font-size: 1rem;
+}
+
+.result-status {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.status-correct {
+    background: #dff9fb;
+    color: var(--success);
+}
+
+.status-incorrect {
+    background: #ff767520;
+    color: var(--danger);
+}
+
+.result-info {
+    flex-grow: 1;
+}
+
+.result-info strong {
+    color: #2d3436;
+}
+
+.result-info span {
+    font-size: 0.9rem;
+    color: #636e72;
+    margin-left: 10px;
 }
 
 /* PRINT STYLES */

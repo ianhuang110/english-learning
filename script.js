@@ -9,6 +9,146 @@ document.addEventListener('DOMContentLoaded', () => {
     const wordCount = document.getElementById('word-count');
     const statsBar = document.getElementById('stats-bar');
 
+    const btnQuiz = document.getElementById('btn-quiz');
+    const quizOverlay = document.getElementById('quiz-overlay');
+    const btnCloseQuiz = document.getElementById('btn-close-quiz');
+    const btnRestartQuiz = document.getElementById('btn-restart-quiz');
+    const quizProgress = document.getElementById('quiz-progress');
+    const quizSentence = document.getElementById('quiz-sentence');
+    const quizTranslation = document.getElementById('quiz-translation');
+    const quizOptions = document.getElementById('quiz-options');
+    const quizQuestionArea = document.getElementById('quiz-question-area');
+    const quizResultArea = document.getElementById('quiz-result-area');
+    const quizAccuracy = document.getElementById('quiz-accuracy');
+    const quizResultList = document.getElementById('quiz-result-list');
+
+    let currentQuizWords = [];
+    let currentQuestionIndex = 0;
+    let quizResults = [];
+
+    // Quiz Game Events
+    btnQuiz.addEventListener('click', () => {
+        initQuiz();
+    });
+
+    btnCloseQuiz.addEventListener('click', () => {
+        quizOverlay.classList.add('hidden');
+    });
+
+    btnRestartQuiz.addEventListener('click', () => {
+        initQuiz();
+    });
+
+    function initQuiz() {
+        currentQuizWords = getRandomSelection(VOCABULARY_DATA, 20);
+        currentQuestionIndex = 0;
+        quizResults = [];
+
+        quizResultArea.classList.add('hidden');
+        quizQuestionArea.classList.remove('hidden');
+        quizOptions.classList.remove('hidden');
+        quizOverlay.classList.remove('hidden');
+
+        showQuestion();
+    }
+
+    function showQuestion() {
+        const currentWordObj = currentQuizWords[currentQuestionIndex];
+        quizProgress.textContent = `題目 ${currentQuestionIndex + 1} / 20`;
+
+        // Mask sentence
+        const masked = maskSentence(currentWordObj.sentence, currentWordObj.word);
+        quizSentence.textContent = masked;
+        quizTranslation.textContent = currentWordObj.translation;
+
+        // Generate Options (8 options)
+        const options = generateOptions(currentWordObj.word);
+        quizOptions.innerHTML = '';
+        options.forEach(opt => {
+            const btn = document.createElement('div');
+            btn.className = 'quiz-option';
+            btn.textContent = opt;
+            btn.addEventListener('click', () => handleAnswer(opt));
+            quizOptions.appendChild(btn);
+        });
+    }
+
+    function maskSentence(sentence, word) {
+        // Handle variations by checking for the word stem and common suffixes
+        // We escape the word to be safe, then allow optional common endings
+        const escapedWord = word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const regex = new RegExp(`\\b${escapedWord}(s|es|ed|ing)?\\b`, 'gi');
+
+        let masked = sentence.replace(regex, '_____');
+
+        // If still not masked (e.g. irregular plurals or different stem), 
+        // fallback to a simpler find-and-replace for the literal word
+        if (masked === sentence) {
+            const simpleRegex = new RegExp(escapedWord, 'gi');
+            masked = sentence.replace(simpleRegex, '_____');
+        }
+
+        return masked;
+    }
+
+    function generateOptions(correctWord) {
+        const distractors = [];
+        const allWordsExceptCorrect = VOCABULARY_DATA.filter(item => item.word !== correctWord);
+
+        const randomDistractors = getRandomSelection(allWordsExceptCorrect, 7);
+        randomDistractors.forEach(item => distractors.push(item.word));
+
+        const finalOptions = [correctWord, ...distractors];
+        return shuffle(finalOptions);
+    }
+
+    function handleAnswer(selectedWord) {
+        const correctWord = currentQuizWords[currentQuestionIndex].word;
+        const isCorrect = selectedWord.toLowerCase() === correctWord.toLowerCase();
+
+        quizResults.push({
+            word: correctWord,
+            selected: selectedWord,
+            isCorrect: isCorrect,
+            sentence: currentQuizWords[currentQuestionIndex].sentence
+        });
+
+        currentQuestionIndex++;
+        if (currentQuestionIndex < 20) {
+            showQuestion();
+        } else {
+            showQuizResults();
+        }
+    }
+
+    function showQuizResults() {
+        quizQuestionArea.classList.add('hidden');
+        quizOptions.classList.add('hidden');
+        quizResultArea.classList.remove('hidden');
+        quizProgress.textContent = "測驗結果";
+
+        const correctCount = quizResults.filter(r => r.isCorrect).length;
+        const accuracy = Math.round((correctCount / 20) * 100);
+        quizAccuracy.textContent = `${accuracy}%`;
+
+        quizResultList.innerHTML = '';
+        quizResults.forEach((res, index) => {
+            const item = document.createElement('div');
+            item.className = 'result-item';
+            item.innerHTML = `
+                <div class="result-status ${res.isCorrect ? 'status-correct' : 'status-incorrect'}">
+                    ${res.isCorrect ? '✓' : '✗'}
+                </div>
+                <div class="result-info">
+                    <strong>第 ${index + 1} 題：${res.word}</strong>
+                    <span>${res.isCorrect ? '正確' : `錯誤 (你選了 ${res.selected})`}</span>
+                    <div style="font-size: 0.85rem; color: #636e72; margin-top: 4px;">${res.sentence}</div>
+                </div>
+            `;
+            quizResultList.appendChild(item);
+        });
+    }
+
     // Toggle Manual Area
     btnManual.addEventListener('click', () => {
         manualArea.classList.toggle('hidden');
