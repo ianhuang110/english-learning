@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小學英文單字高手 - 5/6年級專用</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+TC:wght@400;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <header class="no-print">
+        <div class="header-content">
+            <h1>🎓 小學英文單字高手</h1>
+            <p>專為台灣國小五、六年級設計的單字學習工具</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="controls no-print">
+            <div class="card glass">
+                <h2>指令中心</h2>
+                <div class="button-group">
+                    <button id="btn-auto" class="btn-primary">✨ 自動產生 50 個單字</button>
+                    <button id="btn-manual" class="btn-secondary">✍️ 手動輸入模式</button>
+                    <button id="btn-print" class="btn-success">🖨️ 列印 A4 (50格卡片)</button>
+                </div>
+
+                <div id="manual-input-area" class="hidden">
+                    <textarea id="manual-text" placeholder="格式：單字 [音標] 中文 / 例句. 中文例句. (每行一個單字)"></textarea>
+                    <button id="btn-submit-manual" class="btn-primary">確定生成</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="stats-bar" class="no-print hidden">
+            <div class="stats-content">
+                <span>當前單字數：<strong id="word-count">0</strong></span>
+                <span class="tip">提示：點擊卡片可聽發音，或點擊「印表機」預覽 A4 裁剪模式</span>
+            </div>
+        </section>
+
+        <div id="card-grid" class="card-grid print-grid">
+            <!-- 單字卡將由 JS 動態產生 -->
+            <div class="empty-state no-print">
+                <p>點擊上方按鈕開始您的學習之旅！</p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="no-print">
+        <p>&copy; 2026 英文學習小助手 - 讓學習變得更有趣</p>
+    </footer>
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
