@@ -31,37 +31,8 @@
                     <button id="btn-quiz" class="btn-warning">🎮 進入測驗遊戲</button>
                     <button id="btn-print" class="btn-success">🖨️ 列印 A4 (50格卡片)</button>
                 </div>
-                
-                <!-- 遊戲容器 -->
-                <div id="quiz-overlay" class="quiz-overlay hidden no-print">
-                    <div class="quiz-container glass">
-                        <div class="quiz-header">
-                            <h2 id="quiz-progress">題目 1 / 20</h2>
-                            <button id="btn-close-quiz" class="btn-close">×</button>
-                        </div>
-                        
-                        <div id="quiz-question-area">
-                            <div class="quiz-sentence" id="quiz-sentence">The rainbow is _____ after the rain.</div>
-                            <div class="quiz-translation" id="quiz-translation">雨後的彩虹真美麗。</div>
-                        </div>
 
-                        <div class="quiz-options" id="quiz-options">
-                            <!-- 8 個選項會動態產生 -->
-                        </div>
-
-                        <!-- 結算畫面 -->
-                        <div id="quiz-result-area" class="hidden">
-                            <div class="result-summary">
-                                <h3>測驗完成！</h3>
-                                <div class="accuracy-score">正確率：<span id="quiz-accuracy">0%</span></div>
-                            </div>
-                            <div class="result-list" id="quiz-result-list">
-                                <!-- 每題結果列表 -->
-                            </div>
-                            <button id="btn-restart-quiz" class="btn-primary">再玩一次</button>
-                        </div>
-                    </div>
-                </div>
+                <div id="manual-input-area" class="hidden">
                     <textarea id="manual-text" placeholder="格式：單字 [音標] 中文 / 例句. 中文例句. (每行一個單字)"></textarea>
                     <button id="btn-submit-manual" class="btn-primary">確定生成</button>
                 </div>
@@ -82,6 +53,37 @@
             </div>
         </div>
     </main>
+
+    <!-- 遊戲容器 -->
+    <div id="quiz-overlay" class="quiz-overlay hidden no-print">
+        <div class="quiz-container glass">
+            <div class="quiz-header">
+                <h2 id="quiz-progress">題目 1 / 20</h2>
+                <button id="btn-close-quiz" class="btn-close">×</button>
+            </div>
+
+            <div id="quiz-question-area">
+                <div class="quiz-sentence" id="quiz-sentence">The rainbow is _____ after the rain.</div>
+                <div class="quiz-translation" id="quiz-translation">雨後的彩虹真美麗。</div>
+            </div>
+
+            <div class="quiz-options" id="quiz-options">
+                <!-- 8 個選項會動態產生 -->
+            </div>
+
+            <!-- 結算畫面 -->
+            <div id="quiz-result-area" class="hidden">
+                <div class="result-summary">
+                    <h3>測驗完成！</h3>
+                    <div class="accuracy-score">正確率：<span id="quiz-accuracy">0%</span></div>
+                </div>
+                <div class="result-list" id="quiz-result-list">
+                    <!-- 每題結果列表 -->
+                </div>
+                <button id="btn-restart-quiz" class="btn-primary">再玩一次</button>
+            </div>
+        </div>
+    </div>
 
     <footer class="no-print">
         <p>&copy; 2026 英文學習小助手 - 讓學習變得更有趣</p>
