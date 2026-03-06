@@ -124,6 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function showQuizResults() {
         quizQuestionArea.classList.add('hidden');
         quizOptions.classList.add('hidden');
+        quizOptions.innerHTML = ''; // Clear options
         quizResultArea.classList.remove('hidden');
         quizProgress.textContent = "測驗結果";
 

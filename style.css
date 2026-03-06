@@ -228,7 +228,7 @@ textarea {
 
 /* Helper Classes */
 .hidden {
-    display: none;
+    display: none !important;
 }
 
 .empty-state {
