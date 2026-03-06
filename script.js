@@ -22,10 +22,34 @@ document.addEventListener('DOMContentLoaded', () => {
     const quizAccuracy = document.getElementById('quiz-accuracy');
     const quizResultList = document.getElementById('quiz-result-list');
 
+    // Spelling Game DOM
+    const btnSpelling = document.getElementById('btn-spelling');
+    const spellingOverlay = document.getElementById('spelling-overlay');
+    const btnCloseSpelling = document.getElementById('btn-close-spelling');
+    const btnRestartSpelling = document.getElementById('btn-restart-spelling');
+    const spellingProgress = document.getElementById('spelling-progress');
+    const spellingTranslationDisplay = document.getElementById('spelling-translation-display');
+    const spellingIpaDisplay = document.getElementById('spelling-ipa-display');
+    const spellingInputArea = document.getElementById('spelling-input-area');
+    const letterPool = document.getElementById('letter-pool');
+    const btnSpellingReset = document.getElementById('btn-spelling-reset');
+    const btnSpellingDelete = document.getElementById('btn-spelling-delete');
+    const btnSpellingSubmit = document.getElementById('btn-spelling-submit');
+    const spellingResultArea = document.getElementById('spelling-result-area');
+    const spellingAccuracy = document.getElementById('spelling-accuracy');
+    const spellingResultList = document.getElementById('spelling-result-list');
+    const spellingQuestionArea = document.getElementById('spelling-question-area');
+
     let currentQuizWords = [];
     let currentQuestionIndex = 0;
     let quizResults = [];
     let currentDifficulty = 'low';
+
+    // Spelling Game State
+    let currentSpellingWords = [];
+    let currentSpellingIndex = 0;
+    let currentSpellingInput = [];
+    let spellingResults = [];
 
     // Difficulty Toggle Events
     document.querySelectorAll('input[name="difficulty"]').forEach(radio => {
@@ -57,6 +81,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
     btnRestartQuiz.addEventListener('click', () => {
         initQuiz();
+    });
+
+    // Spelling Game Events
+    btnSpelling.addEventListener('click', () => {
+        initSpellingGame();
+    });
+
+    btnCloseSpelling.addEventListener('click', () => {
+        spellingOverlay.classList.add('hidden');
+    });
+
+    btnRestartSpelling.addEventListener('click', () => {
+        initSpellingGame();
+    });
+
+    btnSpellingReset.addEventListener('click', () => {
+        currentSpellingInput = [];
+        updateSpellingUI();
+    });
+
+    btnSpellingDelete.addEventListener('click', () => {
+        currentSpellingInput.pop();
+        updateSpellingUI();
+    });
+
+    btnSpellingSubmit.addEventListener('click', () => {
+        checkSpellingAnswer();
     });
 
     function initQuiz() {
@@ -164,6 +215,135 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             showQuizResults();
         }
+    }
+
+    // Spelling Game Functions
+    function initSpellingGame() {
+        currentSpellingWords = getRandomSelection(VOCABULARY_DATA, 5);
+        currentSpellingIndex = 0;
+        spellingResults = [];
+
+        spellingResultArea.classList.add('hidden');
+        spellingQuestionArea.classList.remove('hidden');
+        spellingOverlay.classList.remove('hidden');
+
+        showSpellingQuestion();
+    }
+
+    function showSpellingQuestion() {
+        const currentWordObj = currentSpellingWords[currentSpellingIndex];
+        const word = currentWordObj.word.toLowerCase().replace(/[^a-z]/g, '');
+
+        spellingProgress.textContent = `題目 ${currentSpellingIndex + 1} / 5`;
+        spellingTranslationDisplay.textContent = currentWordObj.chinese;
+        spellingIpaDisplay.textContent = currentWordObj.ipa;
+
+        currentSpellingInput = [];
+
+        // Generate letter pool
+        const letters = word.split('');
+        const shuffledLetters = shuffle(letters).map((char, index) => ({
+            char,
+            id: `letter-${index}`
+        }));
+
+        renderLetterPool(shuffledLetters);
+        updateSpellingUI(word.length);
+    }
+
+    function renderLetterPool(letters) {
+        letterPool.innerHTML = '';
+        letters.forEach(item => {
+            const btn = document.createElement('div');
+            btn.className = 'letter-btn';
+            btn.textContent = item.char;
+            btn.dataset.letterId = item.id;
+            btn.addEventListener('click', () => {
+                if (!btn.classList.contains('used')) {
+                    currentSpellingInput.push({
+                        char: item.char,
+                        id: item.id
+                    });
+                    btn.classList.add('used');
+                    updateSpellingUI();
+                }
+            });
+            letterPool.appendChild(btn);
+        });
+    }
+
+    function updateSpellingUI(forcedTotal = null) {
+        const currentWord = currentSpellingWords[currentSpellingIndex].word.toLowerCase().replace(/[^a-z]/g, '');
+        const totalLetters = forcedTotal || currentWord.length;
+
+        spellingInputArea.innerHTML = '';
+        for (let i = 0; i < totalLetters; i++) {
+            const box = document.createElement('div');
+            box.className = 'spell-box';
+            if (currentSpellingInput[i]) {
+                box.textContent = currentSpellingInput[i].char;
+                box.classList.add('filled');
+            }
+            spellingInputArea.appendChild(box);
+        }
+
+        // Sync used status of buttons
+        document.querySelectorAll('.letter-btn').forEach(btn => {
+            const isUsed = currentSpellingInput.some(input => input.id === btn.dataset.letterId);
+            if (isUsed) {
+                btn.classList.add('used');
+            } else {
+                btn.classList.remove('used');
+            }
+        });
+    }
+
+    function checkSpellingAnswer() {
+        const correctWord = currentSpellingWords[currentSpellingIndex].word.toLowerCase().replace(/[^a-z]/g, '');
+        const userInput = currentSpellingInput.map(i => i.char).join('');
+
+        const isCorrect = userInput === correctWord;
+
+        spellingResults.push({
+            word: currentSpellingWords[currentSpellingIndex].word,
+            userInput: userInput,
+            isCorrect: isCorrect,
+            translation: currentSpellingWords[currentSpellingIndex].chinese
+        });
+
+        currentSpellingIndex++;
+        if (currentSpellingIndex < 5) {
+            showSpellingQuestion();
+        } else {
+            showSpellingResults();
+        }
+    }
+
+    function showSpellingResults() {
+        spellingQuestionArea.classList.add('hidden');
+        spellingResultArea.classList.remove('hidden');
+        spellingProgress.textContent = "拼字挑戰結果";
+
+        const correctCount = spellingResults.filter(r => r.isCorrect).length;
+        const accuracy = Math.round((correctCount / 5) * 100);
+        spellingAccuracy.textContent = `${accuracy}%`;
+
+        spellingResultList.innerHTML = '';
+        spellingResults.forEach((res, index) => {
+            const item = document.createElement('div');
+            item.className = 'result-item';
+            item.innerHTML = `
+                <div class="result-status ${res.isCorrect ? 'status-correct' : 'status-incorrect'}">
+                    ${res.isCorrect ? '✓' : '✗'}
+                </div>
+                <div class="result-info">
+                    <strong>第 ${index + 1} 題：${res.word}</strong>
+                    <span>${res.isCorrect ? '正確' : `錯誤 (你拼成 ${res.userInput || '空白'})`}</span>
+                    <div style="font-size: 0.85rem; color: #636e72; margin-top: 4px;">${res.translation}</div>
+                </div>
+            `;
+            spellingResultList.appendChild(item);
+        });
     }
 
     function showQuizResults() {

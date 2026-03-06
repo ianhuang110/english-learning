@@ -29,6 +29,7 @@
                     <button id="btn-auto" class="btn-primary">✨ 自動產生 50 個單字</button>
                     <button id="btn-manual" class="btn-secondary">✍️ 手動輸入模式</button>
                     <button id="btn-quiz" class="btn-warning">🎮 進入測驗遊戲</button>
+                    <button id="btn-spelling" class="btn-info">✨ 拼字比賽</button>
                     <button id="btn-print" class="btn-success">🖨️ 列印 A4 (50格卡片)</button>
                 </div>
 
@@ -93,6 +94,49 @@
                     <!-- 每題結果列表 -->
                 </div>
                 <button id="btn-restart-quiz" class="btn-primary">再玩一次</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 拼字遊戲容器 -->
+    <div id="spelling-overlay" class="quiz-overlay hidden no-print">
+        <div class="quiz-container glass spelling-game-container">
+            <div class="quiz-header">
+                <h2 id="spelling-progress">題目 1 / 5</h2>
+                <button id="btn-close-spelling" class="btn-close">×</button>
+            </div>
+
+            <div id="spelling-question-area">
+                <div class="quiz-translation" id="spelling-translation-display"></div>
+                <div class="word-ipa" id="spelling-ipa-display" style="text-align: center; margin-bottom: 20px;"></div>
+
+                <!-- 拼字輸入顯示區域 -->
+                <div class="spelling-input-area" id="spelling-input-area">
+                    <!-- 字母格將動態產生 -->
+                </div>
+
+                <!-- 字母池 -->
+                <div class="letter-pool" id="letter-pool">
+                    <!-- 混亂的字母按鈕將動態產生 -->
+                </div>
+
+                <div class="spelling-actions">
+                    <button id="btn-spelling-reset" class="btn-secondary">重置</button>
+                    <button id="btn-spelling-delete" class="btn-warning">刪除</button>
+                    <button id="btn-spelling-submit" class="btn-primary">檢查答案</button>
+                </div>
+            </div>
+
+            <!-- 拼字遊戲結算畫面 -->
+            <div id="spelling-result-area" class="hidden">
+                <div class="result-summary">
+                    <h3>拼字挑戰完成！</h3>
+                    <div class="accuracy-score">正確率：<span id="spelling-accuracy">0%</span></div>
+                </div>
+                <div class="result-list" id="spelling-result-list">
+                    <!-- 每題結果列表 -->
+                </div>
+                <button id="btn-restart-spelling" class="btn-primary">再挑戰一次</button>
             </div>
         </div>
     </div>
