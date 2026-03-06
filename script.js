@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function initQuiz() {
-        currentQuizWords = getRandomSelection(VOCABULARY_DATA, 20);
+        currentQuizWords = getRandomSelection(VOCABULARY_DATA, 3);
         currentQuestionIndex = 0;
         quizResults = [];
 
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function showQuestion() {
         const currentWordObj = currentQuizWords[currentQuestionIndex];
-        quizProgress.textContent = `題目 ${currentQuestionIndex + 1} / 20`;
+        quizProgress.textContent = `題目 ${currentQuestionIndex + 1} / 3`;
 
         // Mask sentence
         const masked = maskSentence(currentWordObj.sentence, currentWordObj.word);
@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         currentQuestionIndex++;
-        if (currentQuestionIndex < 20) {
+        if (currentQuestionIndex < 3) {
             showQuestion();
         } else {
             showQuizResults();
@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
         quizProgress.textContent = "測驗結果";
 
         const correctCount = quizResults.filter(r => r.isCorrect).length;
-        const accuracy = Math.round((correctCount / 20) * 100);
+        const accuracy = Math.round((correctCount / 3) * 100);
         quizAccuracy.textContent = `${accuracy}%`;
 
         quizResultList.innerHTML = '';
