@@ -30,6 +30,7 @@
                     <button id="btn-manual" class="btn-secondary">✍️ 手動輸入模式</button>
                     <button id="btn-quiz" class="btn-warning">🎮 進入測驗遊戲</button>
                     <button id="btn-spelling" class="btn-info">✨ 拼字比賽</button>
+                    <button id="btn-dialogue" class="btn-primary">💬 情境對話</button>
                     <button id="btn-print" class="btn-success">🖨️ 列印 A4 (50格卡片)</button>
                 </div>
 
@@ -137,6 +138,48 @@
                     <!-- 每題結果列表 -->
                 </div>
                 <button id="btn-restart-spelling" class="btn-primary">再挑戰一次</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 情境對話遊戲容器 -->
+    <div id="dialogue-overlay" class="quiz-overlay hidden no-print">
+        <div class="quiz-container glass dialogue-game-container">
+            <div class="quiz-header">
+                <h2 id="dialogue-title">情境對話</h2>
+                <button id="btn-close-dialogue" class="btn-close">×</button>
+            </div>
+
+            <div id="dialogue-question-area-inner">
+                <div class="dialogue-display" id="dialogue-display">
+                    <!-- 對話內容將動態產生 -->
+                </div>
+
+                <div class="dialogue-options letter-pool" id="dialogue-options">
+                    <!-- 選項將動態產生 -->
+                </div>
+
+                <div class="dialogue-actions"
+                    style="margin-top: 20px; display: flex; gap: 10px; justify-content: center;">
+                    <button id="btn-dialogue-reset" class="btn-secondary">重置</button>
+                    <button id="btn-dialogue-submit" class="btn-primary">檢查答案</button>
+                </div>
+            </div>
+
+            <!-- 結算畫面 -->
+            <div id="dialogue-result-area" class="hidden">
+                <div class="result-summary">
+                    <h3>場景完成！</h3>
+                    <div class="accuracy-score"><span id="dialogue-feedback"></span></div>
+                </div>
+                <div class="result-list" id="dialogue-result-list"
+                    style="max-height: 250px; overflow-y: auto; text-align: left; margin-bottom: 20px;">
+                    <!-- 每題結果列表將由 JS 動態產生 -->
+                </div>
+                <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
+                    <button id="btn-next-dialogue" class="btn-primary">下一個場景</button>
+                    <button id="btn-restart-dialogue" class="btn-secondary">重新挑戰</button>
+                </div>
             </div>
         </div>
     </div>

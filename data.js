@@ -236,4 +236,52 @@ const VOCABULARY_DATA = [
     { word: "February", ipa: "[ˈfebruəri]", chinese: "二月", sentence: "Valentine's Day is in February.", translation: "情人節是在二月。" },
     { word: "Fee", ipa: "[fiː]", chinese: "費用", sentence: "How much is the entrance fee?", translation: "入場費是多少錢？" },
 ];
+
+const DIALOGUE_DATA = [
+    {
+        title: "在餐廳點餐 (At the Restaurant)",
+        dialogue: [
+            { speaker: "Waiter", text: "Welcome! Are you ready to [blank]?" },
+            { speaker: "Customer", text: "Yes, I would like to [blank] the chicken sandwich." },
+            { speaker: "Waiter", text: "Anything [blank] to drink?" },
+            { speaker: "Customer", text: "Just some [blank] water, please." }
+        ],
+        blanks: ["order", "have", "else", "cold"],
+        options: ["order", "have", "else", "cold", "eat", "drink", "more", "hot"]
+    },
+    {
+        title: "在圖書館 (At the Library)",
+        dialogue: [
+            { speaker: "Librarian", text: "Can I [blank] you?" },
+            { speaker: "Student", text: "I'm looking for a book [blank] history." },
+            { speaker: "Librarian", text: "We have many books on that [blank] in the back." },
+            { speaker: "Student", text: "Thank you very [blank]!" }
+        ],
+        blanks: ["help", "about", "subject", "much"],
+        options: ["help", "about", "subject", "much", "find", "for", "topic", "well"]
+    },
+    {
+        title: "遇見朋友 (Meeting a Friend)",
+        dialogue: [
+            { speaker: "Alice", text: "Hi! How are you [blank]?" },
+            { speaker: "Bob", text: "I'm doing [blank]. How about you?" },
+            { speaker: "Alice", text: "I'm a bit [blank], actually." },
+            { speaker: "Bob", text: "Oh, why? What [blank]?" }
+        ],
+        blanks: ["today", "well", "tired", "happened"],
+        options: ["today", "well", "tired", "happened", "now", "good", "busy", "wrong"]
+    },
+    {
+        title: "詢問路向 (Asking for Directions)",
+        dialogue: [
+            { speaker: "Stranger", text: "Excuse me, how do I [blank] to the train station?" },
+            { speaker: "Passerby", text: "Go straight for two [blank] and turn left." },
+            { speaker: "Stranger", text: "Is it [blank] from here?" },
+            { speaker: "Passerby", text: "No, it's just a five-minute [blank]." }
+        ],
+        blanks: ["get", "blocks", "far", "walk"],
+        options: ["get", "blocks", "far", "walk", "go", "streets", "near", "run"]
+    }
+];
+
 // 此處略過中間生成的單字，實際應用時應包含完整的 1200 字庫。

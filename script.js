@@ -40,6 +40,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const spellingResultList = document.getElementById('spelling-result-list');
     const spellingQuestionArea = document.getElementById('spelling-question-area');
 
+    // Dialogue Game DOM
+    const btnDialogue = document.getElementById('btn-dialogue');
+    const dialogueOverlay = document.getElementById('dialogue-overlay');
+    const btnCloseDialogue = document.getElementById('btn-close-dialogue');
+    const dialogueTitle = document.getElementById('dialogue-title');
+    const dialogueDisplay = document.getElementById('dialogue-display');
+    const dialogueOptions = document.getElementById('dialogue-options');
+    const btnDialogueReset = document.getElementById('btn-dialogue-reset');
+    const btnDialogueSubmit = document.getElementById('btn-dialogue-submit');
+    const dialogueResultArea = document.getElementById('dialogue-result-area');
+    const dialogueFeedback = document.getElementById('dialogue-feedback');
+    const btnNextDialogue = document.getElementById('btn-next-dialogue');
+    const btnRestartDialogue = document.getElementById('btn-restart-dialogue');
+    const dialogueQuestionAreaInner = document.getElementById('dialogue-question-area-inner');
+
     let currentQuizWords = [];
     let currentQuestionIndex = 0;
     let quizResults = [];
@@ -50,6 +65,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentSpellingIndex = 0;
     let currentSpellingInput = [];
     let spellingResults = [];
+
+    // Dialogue Game State
+    let currentDialogueIndex = 0;
+    let dialogueAnswers = []; // Stores the words filled in blanks
 
     // Difficulty Toggle Events
     document.querySelectorAll('input[name="difficulty"]').forEach(radio => {
@@ -108,6 +127,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
     btnSpellingSubmit.addEventListener('click', () => {
         checkSpellingAnswer();
+    });
+
+    // Dialogue Game Events
+    btnDialogue.addEventListener('click', () => {
+        initDialogueGame();
+    });
+
+    btnCloseDialogue.addEventListener('click', () => {
+        dialogueOverlay.classList.add('hidden');
+    });
+
+    btnDialogueReset.addEventListener('click', () => {
+        resetDialogueBlanks();
+    });
+
+    btnDialogueSubmit.addEventListener('click', () => {
+        checkDialogueAnswers();
+    });
+
+    btnNextDialogue.addEventListener('click', () => {
+        currentDialogueIndex = (currentDialogueIndex + 1) % DIALOGUE_DATA.length;
+        loadDialogueScenario();
+    });
+
+    btnRestartDialogue.addEventListener('click', () => {
+        loadDialogueScenario();
     });
 
     function initQuiz() {
@@ -344,6 +389,168 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             spellingResultList.appendChild(item);
         });
+    }
+
+
+    // Dialogue Game Functions
+    function initDialogueGame() {
+        currentDialogueIndex = 0;
+        dialogueOverlay.classList.remove('hidden');
+        loadDialogueScenario();
+    }
+
+    function loadDialogueScenario() {
+        const scenario = DIALOGUE_DATA[currentDialogueIndex];
+        dialogueTitle.textContent = scenario.title;
+        dialogueResultArea.classList.add('hidden');
+        dialogueQuestionAreaInner.classList.remove('hidden');
+
+        // Reset state
+        dialogueAnswers = new Array(scenario.blanks.length).fill(null);
+
+        renderDialogueContent();
+        renderDialogueOptions();
+    }
+
+    function renderDialogueContent() {
+        const scenario = DIALOGUE_DATA[currentDialogueIndex];
+        dialogueDisplay.innerHTML = '';
+
+        let blankCounter = 0;
+        scenario.dialogue.forEach(line => {
+            const lineDiv = document.createElement('div');
+            lineDiv.className = 'dialogue-line';
+
+            const speakerSpan = document.createElement('span');
+            speakerSpan.className = 'dialogue-speaker';
+            speakerSpan.textContent = line.speaker;
+
+            const textDiv = document.createElement('div');
+            textDiv.className = 'dialogue-text';
+
+            // Handle [blank] tags
+            const parts = line.text.split('[blank]');
+            parts.forEach((part, index) => {
+                textDiv.appendChild(document.createTextNode(part));
+                if (index < parts.length - 1) {
+                    const blankSpan = document.createElement('span');
+                    blankSpan.className = 'dialogue-blank';
+                    const currentBlankIndex = blankCounter++;
+                    blankSpan.dataset.index = currentBlankIndex;
+
+                    if (dialogueAnswers[currentBlankIndex]) {
+                        blankSpan.textContent = dialogueAnswers[currentBlankIndex];
+                        blankSpan.classList.add('filled');
+                    } else {
+                        blankSpan.textContent = '____';
+                    }
+
+                    blankSpan.addEventListener('click', () => handleBlankClick(currentBlankIndex));
+                    textDiv.appendChild(blankSpan);
+                }
+            });
+
+            lineDiv.appendChild(speakerSpan);
+            lineDiv.appendChild(textDiv);
+            dialogueDisplay.appendChild(lineDiv);
+        });
+    }
+
+    function renderDialogueOptions() {
+        const scenario = DIALOGUE_DATA[currentDialogueIndex];
+        dialogueOptions.innerHTML = '';
+
+        // Use shuffled options for better challenge
+        if (!scenario._shuffledOptions) {
+            scenario._shuffledOptions = shuffle(scenario.options);
+        }
+
+        scenario._shuffledOptions.forEach(option => {
+            const btn = document.createElement('button');
+            btn.className = 'dialogue-option-btn';
+            btn.textContent = option;
+
+            // If option is already used in any blank
+            if (dialogueAnswers.includes(option)) {
+                btn.classList.add('used');
+            }
+
+            btn.addEventListener('click', () => handleOptionClick(option));
+            dialogueOptions.appendChild(btn);
+        });
+    }
+
+    function handleOptionClick(option) {
+        // Find first empty blank
+        const emptyIndex = dialogueAnswers.indexOf(null);
+        if (emptyIndex !== -1 && !dialogueAnswers.includes(option)) {
+            dialogueAnswers[emptyIndex] = option;
+            renderDialogueContent();
+            renderDialogueOptions();
+        }
+    }
+
+    function handleBlankClick(index) {
+        if (dialogueAnswers[index]) {
+            dialogueAnswers[index] = null;
+            renderDialogueContent();
+            renderDialogueOptions();
+        }
+    }
+
+    function resetDialogueBlanks() {
+        const scenario = DIALOGUE_DATA[currentDialogueIndex];
+        dialogueAnswers = new Array(scenario.blanks.length).fill(null);
+        renderDialogueContent();
+        renderDialogueOptions();
+    }
+
+    function checkDialogueAnswers() {
+        const scenario = DIALOGUE_DATA[currentDialogueIndex];
+
+        if (dialogueAnswers.includes(null)) {
+            alert('請填完所有空格喔！');
+            return;
+        }
+
+        const results = dialogueAnswers.map((ans, idx) => {
+            const isCorrect = ans && scenario.blanks[idx] && ans.toLowerCase().trim() === scenario.blanks[idx].toLowerCase().trim();
+            return {
+                userAns: ans,
+                correctAns: scenario.blanks[idx],
+                isCorrect: isCorrect
+            };
+        });
+
+        const correctCount = results.filter(r => r.isCorrect).length;
+        const isAllCorrect = correctCount === scenario.blanks.length;
+
+        dialogueQuestionAreaInner.classList.add('hidden');
+        dialogueResultArea.classList.remove('hidden');
+
+        const resultList = document.getElementById('dialogue-result-list');
+        resultList.innerHTML = '';
+
+        results.forEach((res, index) => {
+            const item = document.createElement('div');
+            item.className = 'result-item';
+            item.innerHTML = `
+                <div class="result-status ${res.isCorrect ? 'status-correct' : 'status-incorrect'}">
+                    ${res.isCorrect ? '✓' : '✗'}
+                </div>
+                <div class="result-info">
+                    <strong>空格 ${index + 1}：${res.userAns}</strong>
+                    <span>${res.isCorrect ? '正確' : `錯誤 (正確答案是: ${res.correctAns})`}</span>
+                </div>
+            `;
+            resultList.appendChild(item);
+        });
+
+        if (isAllCorrect) {
+            dialogueFeedback.innerHTML = '<div class="dialogue-feedback-correct">✨ 太棒了！全部正確！ ✨</div>';
+        } else {
+            dialogueFeedback.innerHTML = `<div class="dialogue-feedback-wrong">❌ 有些地方錯了 (${correctCount}/${scenario.blanks.length} 正確) ❌</div>`;
+        }
     }
 
     function showQuizResults() {
