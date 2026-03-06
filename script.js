@@ -25,6 +25,26 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentQuizWords = [];
     let currentQuestionIndex = 0;
     let quizResults = [];
+    let currentDifficulty = 'low';
+
+    // Difficulty Toggle Events
+    document.querySelectorAll('input[name="difficulty"]').forEach(radio => {
+        radio.addEventListener('change', (e) => {
+            currentDifficulty = e.target.value;
+            refreshCurrentCards();
+        });
+    });
+
+    function refreshCurrentCards() {
+        const cards = document.querySelectorAll('.vocab-card');
+        if (cards.length > 0) {
+            // Re-render based on current data to ensure difficulty logic applies
+            // For simplicity, we can just trigger a regeneration if we store the latest data
+            // But let's just update visibility classes for existing cards if possible
+            // Actually, regenerate is cleaner to handle the "Hint" button injection
+            btnAuto.click(); // Re-trigger auto-gen or just use cached data
+        }
+    }
 
     // Quiz Game Events
     btnQuiz.addEventListener('click', () => {
@@ -59,7 +79,32 @@ document.addEventListener('DOMContentLoaded', () => {
         // Mask sentence
         const masked = maskSentence(currentWordObj.sentence, currentWordObj.word);
         quizSentence.textContent = masked;
+
         quizTranslation.textContent = currentWordObj.translation;
+        if (currentDifficulty === 'high') {
+            quizTranslation.classList.add('hidden-translation');
+
+            // Add hint button if not exists
+            let hintBtn = document.getElementById('quiz-hint-btn');
+            if (!hintBtn) {
+                hintBtn = document.createElement('button');
+                hintBtn.id = 'quiz-hint-btn';
+                hintBtn.className = 'quiz-hint-btn';
+                hintBtn.textContent = '💡 顯示中文提示';
+                hintBtn.onclick = () => {
+                    quizTranslation.classList.add('revealed');
+                    hintBtn.classList.add('hidden');
+                };
+                quizTranslation.parentNode.insertBefore(hintBtn, quizTranslation.nextSibling);
+            } else {
+                hintBtn.classList.remove('hidden');
+                quizTranslation.classList.remove('revealed');
+            }
+        } else {
+            quizTranslation.classList.remove('hidden-translation', 'revealed');
+            const hintBtn = document.getElementById('quiz-hint-btn');
+            if (hintBtn) hintBtn.classList.add('hidden');
+        }
 
         // Generate Options (8 options)
         const options = generateOptions(currentWordObj.word);
@@ -245,10 +290,33 @@ document.addEventListener('DOMContentLoaded', () => {
                     <span class="word-main clickable-text">${item.word}</span>
                     <span class="word-ipa">${item.ipa}</span>
                 </div>
-                <div class="word-chinese">${item.chinese}</div>
+                <div class="word-chinese-area">
+                    <div class="translation-wrapper">
+                        <span class="word-chinese ${currentDifficulty === 'high' ? 'hidden-text' : ''}">${item.chinese}</span>
+                        ${currentDifficulty === 'high' ? '<button class="btn-hint">單字翻譯</button>' : ''}
+                    </div>
+                </div>
                 <div class="sentence-eng clickable-text">${item.sentence}</div>
-                <div class="sentence-chi">${item.translation}</div>
+                <div class="sentence-chi-area">
+                    <div class="translation-wrapper">
+                        <span class="sentence-chi ${currentDifficulty === 'high' ? 'hidden-text' : ''}">${item.translation}</span>
+                        ${currentDifficulty === 'high' ? '<button class="btn-hint">造句翻譯</button>' : ''}
+                    </div>
+                </div>
             `;
+
+            // Hint logic for high difficulty
+            if (currentDifficulty === 'high') {
+                card.querySelectorAll('.btn-hint').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        // Find the span that is hidden
+                        const hiddenSpan = btn.parentElement.querySelector('.hidden-text');
+                        if (hiddenSpan) hiddenSpan.classList.add('revealed');
+                        btn.style.display = 'none';
+                    });
+                });
+            }
 
             // Speak word on header click
             card.querySelector('.word-main').addEventListener('click', (e) => {

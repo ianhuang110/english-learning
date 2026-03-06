@@ -32,6 +32,18 @@
                     <button id="btn-print" class="btn-success">🖨️ 列印 A4 (50格卡片)</button>
                 </div>
 
+                <div class="difficulty-selector">
+                    <span>難易度：</span>
+                    <label class="diff-label">
+                        <input type="radio" name="difficulty" value="low" checked>
+                        <span class="diff-btn">低級</span>
+                    </label>
+                    <label class="diff-label">
+                        <input type="radio" name="difficulty" value="high">
+                        <span class="diff-btn">高級</span>
+                    </label>
+                </div>
+
                 <div id="manual-input-area" class="hidden">
                     <textarea id="manual-text" placeholder="格式：單字 [音標] 中文 / 例句. 中文例句. (每行一個單字)"></textarea>
                     <button id="btn-submit-manual" class="btn-primary">確定生成</button>
