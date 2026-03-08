@@ -94,6 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentGloriaIndex = 0;
     let gloriaResults = [];
     let currentGloriaLesson = '';
+    let speechInitialized = false;
 
     // Difficulty Toggle Events
     document.querySelectorAll('input[name="difficulty"]').forEach(radio => {
@@ -122,6 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Gloria Test Events
     if (btnGloria) {
         btnGloria.addEventListener('click', () => {
+            initSpeech();
             initGloriaTest();
         });
     }
@@ -182,7 +184,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const btn = document.createElement('div');
             btn.className = 'lesson-btn';
             btn.textContent = `Lesson ${lessonNum}`;
-            btn.onclick = () => startGloriaLesson(lessonNum);
+            btn.onclick = () => {
+                initSpeech();
+                startGloriaLesson(lessonNum);
+            };
             gloriaLessonSelector.appendChild(btn);
         });
     }
@@ -670,6 +675,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function resetDialogueBlanks() {
         const scenario = DIALOGUE_DATA[currentDialogueIndex];
         dialogueAnswers = new Array(scenario.blanks.length).fill(null);
+        dialogueFeedback.innerHTML = ''; // Clear feedback
         renderDialogueContent();
         renderDialogueOptions();
     }
@@ -902,21 +908,48 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function initSpeech() {
+        if (speechInitialized || !('speechSynthesis' in window)) return;
+
+        // "Prime" the speech engine with an empty utterance on user gesture
+        const utterance = new SpeechSynthesisUtterance('');
+        utterance.volume = 0;
+        window.speechSynthesis.speak(utterance);
+        speechInitialized = true;
+    }
+
     function speak(text) {
-        if ('speechSynthesis' in window) {
-            // Cancel any current speech to prevent queuing issues on mobile
-            window.speechSynthesis.cancel();
+        if (!('speechSynthesis' in window)) return;
 
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = 'en-US';
-            utterance.rate = 0.9;
+        // Cancel existing to avoid queuing blocks on mobile
+        window.speechSynthesis.cancel();
 
-            // Some mobile browsers remain in a paused state
-            if (window.speechSynthesis.paused) {
-                window.speechSynthesis.resume();
-            }
+        const utterance = new SpeechSynthesisUtterance(text);
 
-            window.speechSynthesis.speak(utterance);
+        // Attempt to find a suitable English voice if none selected
+        const voices = window.speechSynthesis.getVoices();
+        if (voices.length > 0) {
+            const enVoice = voices.find(v => v.lang.includes('en-US')) || voices.find(v => v.lang.includes('en'));
+            if (enVoice) utterance.voice = enVoice;
+        }
+
+        utterance.lang = 'en-US';
+        utterance.rate = 0.9;
+        utterance.volume = 1.0;
+
+        // Some mobile browsers need a resume if they stuck
+        if (window.speechSynthesis.paused) {
+            window.speechSynthesis.resume();
+        }
+
+        window.speechSynthesis.speak(utterance);
+    }
+
+    // Ensure voices are loaded (Chrome/Safari requirement)
+    if ('speechSynthesis' in window) {
+        window.speechSynthesis.getVoices();
+        if (window.speechSynthesis.onvoiceschanged !== undefined) {
+            window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
         }
     }
 });
