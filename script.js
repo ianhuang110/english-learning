@@ -904,9 +904,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function speak(text) {
         if ('speechSynthesis' in window) {
+            // Cancel any current speech to prevent queuing issues on mobile
+            window.speechSynthesis.cancel();
+
             const utterance = new SpeechSynthesisUtterance(text);
             utterance.lang = 'en-US';
             utterance.rate = 0.9;
+
+            // Some mobile browsers remain in a paused state
+            if (window.speechSynthesis.paused) {
+                window.speechSynthesis.resume();
+            }
+
             window.speechSynthesis.speak(utterance);
         }
     }
