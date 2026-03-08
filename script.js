@@ -55,6 +55,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnRestartDialogue = document.getElementById('btn-restart-dialogue');
     const dialogueQuestionAreaInner = document.getElementById('dialogue-question-area-inner');
 
+    // Gloria Test DOM
+    const btnGloria = document.getElementById('btn-gloria');
+    const gloriaOverlay = document.getElementById('gloria-overlay');
+    const btnCloseGloria = document.getElementById('btn-close-gloria');
+    const gloriaLessonSelector = document.getElementById('gloria-lesson-selector');
+    const gloriaQuestionArea = document.getElementById('gloria-question-area');
+    const gloriaProgress = document.getElementById('gloria-progress');
+    const gloriaChineseDisplay = document.getElementById('gloria-chinese-display');
+    const gloriaAnswerInput = document.getElementById('gloria-answer-input');
+    const btnGloriaSubmit = document.getElementById('btn-gloria-submit');
+    const gloriaFeedback = document.getElementById('gloria-feedback');
+    const gloriaResultArea = document.getElementById('gloria-result-area');
+    const gloriaAccuracy = document.getElementById('gloria-accuracy');
+    const gloriaResultList = document.getElementById('gloria-result-list');
+    const gloriaResultTitle = document.getElementById('gloria-result-title');
+    const btnRestartGloria = document.getElementById('btn-restart-gloria');
+    const btnCloseGloriaFinal = document.getElementById('btn-close-gloria-final');
+    const btnGloriaSpeak = document.getElementById('btn-gloria-speak');
+
     let currentQuizWords = [];
     let currentQuestionIndex = 0;
     let quizResults = [];
@@ -69,6 +88,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Dialogue Game State
     let currentDialogueIndex = 0;
     let dialogueAnswers = []; // Stores the words filled in blanks
+
+    // Gloria Test State
+    let currentGloriaWords = [];
+    let currentGloriaIndex = 0;
+    let gloriaResults = [];
+    let currentGloriaLesson = '';
 
     // Difficulty Toggle Events
     document.querySelectorAll('input[name="difficulty"]').forEach(radio => {
@@ -93,6 +118,150 @@ document.addEventListener('DOMContentLoaded', () => {
     btnQuiz.addEventListener('click', () => {
         initQuiz();
     });
+
+    // Gloria Test Events
+    if (btnGloria) {
+        btnGloria.addEventListener('click', () => {
+            initGloriaTest();
+        });
+    }
+
+    if (btnCloseGloria) {
+        btnCloseGloria.addEventListener('click', () => {
+            gloriaOverlay.classList.add('hidden');
+        });
+    }
+
+    if (btnGloriaSubmit) {
+        btnGloriaSubmit.addEventListener('click', () => {
+            checkGloriaAnswer();
+        });
+    }
+
+    if (gloriaAnswerInput) {
+        gloriaAnswerInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                checkGloriaAnswer();
+            }
+        });
+    }
+
+    if (btnRestartGloria) {
+        btnRestartGloria.addEventListener('click', () => {
+            initGloriaTest();
+        });
+    }
+
+    if (btnCloseGloriaFinal) {
+        btnCloseGloriaFinal.addEventListener('click', () => {
+            gloriaOverlay.classList.add('hidden');
+        });
+    }
+
+    if (btnGloriaSpeak) {
+        btnGloriaSpeak.addEventListener('click', () => {
+            if (currentGloriaWords[currentGloriaIndex]) {
+                speak(currentGloriaWords[currentGloriaIndex].word);
+            }
+        });
+    }
+
+    function initGloriaTest() {
+        gloriaOverlay.classList.remove('hidden');
+        gloriaLessonSelector.classList.remove('hidden');
+        gloriaQuestionArea.classList.add('hidden');
+        gloriaResultArea.classList.add('hidden');
+        renderGloriaLessonSelector();
+    }
+
+    function renderGloriaLessonSelector() {
+        if (!gloriaLessonSelector) return;
+        gloriaLessonSelector.innerHTML = '';
+        const lessons = Object.keys(GLORIA_VOCAB_DATA).sort((a, b) => parseInt(a) - parseInt(b));
+        lessons.forEach(lessonNum => {
+            const btn = document.createElement('div');
+            btn.className = 'lesson-btn';
+            btn.textContent = `Lesson ${lessonNum}`;
+            btn.onclick = () => startGloriaLesson(lessonNum);
+            gloriaLessonSelector.appendChild(btn);
+        });
+    }
+
+    function startGloriaLesson(lessonNum) {
+        currentGloriaLesson = lessonNum;
+        currentGloriaWords = GLORIA_VOCAB_DATA[lessonNum];
+        currentGloriaIndex = 0;
+        gloriaResults = [];
+        gloriaLessonSelector.classList.add('hidden');
+        gloriaQuestionArea.classList.remove('hidden');
+        showGloriaQuestion();
+    }
+
+    function showGloriaQuestion() {
+        const wordObj = currentGloriaWords[currentGloriaIndex];
+        gloriaProgress.textContent = `Lesson ${currentGloriaLesson} - 題目 ${currentGloriaIndex + 1} / ${currentGloriaWords.length}`;
+        gloriaChineseDisplay.textContent = wordObj.chinese;
+        gloriaAnswerInput.value = '';
+        gloriaFeedback.textContent = '';
+        gloriaAnswerInput.focus();
+    }
+
+    function checkGloriaAnswer() {
+        const userInput = gloriaAnswerInput.value.trim().toLowerCase();
+        const correctWord = currentGloriaWords[currentGloriaIndex].word.toLowerCase();
+        const isCorrect = userInput === correctWord;
+
+        gloriaResults.push({
+            word: currentGloriaWords[currentGloriaIndex].word,
+            userInput: userInput,
+            isCorrect: isCorrect,
+            chinese: currentGloriaWords[currentGloriaIndex].chinese
+        });
+
+        if (isCorrect) {
+            gloriaFeedback.innerHTML = '<span class="gloria-correct">✓ 正確！</span>';
+            setTimeout(() => nextGloriaQuestion(), 500);
+        } else {
+            gloriaFeedback.innerHTML = `<span class="gloria-incorrect">✗ 錯誤！答案是: ${currentGloriaWords[currentGloriaIndex].word}</span>`;
+            setTimeout(() => nextGloriaQuestion(), 1500);
+        }
+    }
+
+    function nextGloriaQuestion() {
+        currentGloriaIndex++;
+        if (currentGloriaIndex < currentGloriaWords.length) {
+            showGloriaQuestion();
+        } else {
+            showGloriaResults();
+        }
+    }
+
+    function showGloriaResults() {
+        gloriaQuestionArea.classList.add('hidden');
+        gloriaResultArea.classList.remove('hidden');
+        if (gloriaResultTitle) gloriaResultTitle.textContent = `Lesson ${currentGloriaLesson} 考試完成！`;
+
+        const correctCount = gloriaResults.filter(r => r.isCorrect).length;
+        const accuracy = Math.round((correctCount / gloriaResults.length) * 100);
+        gloriaAccuracy.textContent = `${accuracy}%`;
+
+        gloriaResultList.innerHTML = '';
+        gloriaResults.forEach((res, index) => {
+            const item = document.createElement('div');
+            item.className = 'result-item';
+            item.innerHTML = `
+                <div class="result-status ${res.isCorrect ? 'status-correct' : 'status-incorrect'}">
+                    ${res.isCorrect ? '✓' : '✗'}
+                </div>
+                <div class="result-info">
+                    <strong>${res.chinese}：${res.word}</strong>
+                    <span>${res.isCorrect ? '正確' : `錯誤 (你寫成: ${res.userInput || '空白'})`}</span>
+                </div>
+                <button class="btn-speak-result" onclick="speak('${res.word.replace(/'/g, "\\'")}')" style="background: none; border: none; cursor: pointer; font-size: 1.2rem; margin-left: auto;">🔊</button>
+            `;
+            gloriaResultList.appendChild(item);
+        });
+    }
 
     btnCloseQuiz.addEventListener('click', () => {
         quizOverlay.classList.add('hidden');

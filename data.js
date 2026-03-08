@@ -284,4 +284,275 @@ const DIALOGUE_DATA = [
     }
 ];
 
-// 此處略過中間生成的單字，實際應用時應包含完整的 1200 字庫。
+const GLORIA_VOCAB_DATA = {
+    91: [
+        { word: "outside", ipa: "[ˈaʊtˈsaɪd]", chinese: "外面" },
+        { word: "library", ipa: "[ˈlɑɪˌbrerɪ]", chinese: "圖書館" },
+        { word: "climb", ipa: "[klɑɪm]", chinese: "爬" },
+        { word: "since", ipa: "[sɪns]", chinese: "自從" },
+        { word: "primary", ipa: "[ˈprɑɪˌmɛrɪ]", chinese: "主要的" },
+        { word: "cause", ipa: "[kɔz]", chinese: "引起" },
+        { word: "appear", ipa: "[əˈpɪr]", chinese: "出現" },
+        { word: "crime", ipa: "[krɑɪm]", chinese: "罪行" }
+    ],
+    92: [
+        { word: "market", ipa: "[ˈmɑrkɪt]", chinese: "市場" },
+        { word: "strict", ipa: "[strɪkt]", chinese: "嚴格的" },
+        { word: "while", ipa: "[(h)wɑɪl]", chinese: "當" },
+        { word: "education", ipa: "[ˌɛdʒuˈkɛʃən]", chinese: "教育" },
+        { word: "agree", ipa: "[əˈɡri]", chinese: "同意" }
+    ],
+    93: [
+        { word: "police chief", ipa: "[pəˈlis] [tʃif]", chinese: "警長" },
+        { word: "happen", ipa: "[ˈhæpən]", chinese: "發生" },
+        { word: "robbery", ipa: "[ˈrɑbərɪ]", chinese: "搶案；竊案" },
+        { word: "mistake", ipa: "[mɪˈstek]", chinese: "錯誤" },
+        { word: "scientist", ipa: "[ˈsɑɪəntɪst]", chinese: "科學家" },
+        { word: "ocean", ipa: "[ˈoʃən]", chinese: "海洋" }
+    ],
+    94: [
+        { word: "last", ipa: "[læst]", chinese: "持續" },
+        { word: "traffic jam", ipa: "[ˈtræfɪkˌdʒæm]", chinese: "交通阻塞" },
+        { word: "concert", ipa: "[ˈkɑnsət]", chinese: "音樂會" },
+        { word: "take place", ipa: "[tek] [ples]", chinese: "發生" },
+        { word: "accident", ipa: "[ˈæksədənt]", chinese: "意外" },
+        { word: "race", ipa: "[res]", chinese: "競賽" }
+    ],
+    95: [
+        { word: "muddy", ipa: "[ˈmʌdɪ]", chinese: "泥濘的" },
+        { word: "polish", ipa: "[ˈpɑlɪʃ]", chinese: "擦亮" },
+        { word: "slippery", ipa: "[ˈslɪpərɪ]", chinese: "滑的" },
+        { word: "whoops", ipa: "[wups]", chinese: "哎呀" },
+        { word: "ouch", ipa: "[aʊtʃ]", chinese: "唉呦" },
+        { word: "what's up", ipa: "[wɑts] [ʌp]", chinese: "怎麼了" },
+        { word: "dangerous", ipa: "[ˈdɛndʒərəs]", chinese: "危險的" }
+    ],
+    96: [
+        { word: "basin", ipa: "[ˈbesən]", chinese: "盆" },
+        { word: "pump up", ipa: "[pʌmp] [ʌp]", chinese: "打氣" },
+        { word: "direct", ipa: "[dəˈrɛkt]", chinese: "指揮" },
+        { word: "especially", ipa: "[əˈspɛʃəlɪ]", chinese: "特別地" },
+        { word: "subway", ipa: "[ˈsʌbˌwe]", chinese: "地下鐵" },
+        { word: "solve", ipa: "[sɑlv]", chinese: "解決" },
+        { word: "system", ipa: "[ˈsɪstəm]", chinese: "系統" },
+        { word: "lane", ipa: "[len]", chinese: "車道" }
+    ],
+    97: [
+        { word: "light", ipa: "[lɑɪt]", chinese: "點燃" },
+        { word: "claim", ipa: "[klem]", chinese: "聲明" },
+        { word: "future", ipa: "[ˈfjutʃɚ]", chinese: "未來" },
+        { word: "focus on", ipa: "[ˈfokəs] [ɑn]", chinese: "集中焦點" },
+        { word: "ordinary", ipa: "[ˈɔrdənˌɛrɪ]", chinese: "平常的" },
+        { word: "work out", ipa: "[wɝk] [aʊt]", chinese: "解決" }
+    ],
+    98: [
+        { word: "true", ipa: "[tru]", chinese: "真實的" },
+        { word: "in advance", ipa: "[ɪn] [ədˈvæns]", chinese: "事先" },
+        { word: "possible", ipa: "[ˈpɑsəbl]", chinese: "可能的" },
+        { word: "sore", ipa: "[sor]", chinese: "酸痛" },
+        { word: "clap", ipa: "[klæp]", chinese: "拍手" },
+        { word: "mechanic", ipa: "[məˈkænɪk]", chinese: "技師" }
+    ],
+    99: [
+        { word: "trick", ipa: "[trɪk]", chinese: "惡作劇" },
+        { word: "brick", ipa: "[brɪk]", chinese: "磚塊" },
+        { word: "ground", ipa: "[ɡrɑʊnd]", chinese: "地面" },
+        { word: "moment", ipa: "[moˈmənt]", chinese: "時刻" },
+        { word: "salesperson", ipa: "[ˈselzˌpɝsən]", chinese: "銷售員" },
+        { word: "ski", ipa: "[ski]", chinese: "滑雪" },
+        { word: "skate", ipa: "[sket]", chinese: "溜冰" },
+        { word: "act", ipa: "[ækt]", chinese: "扮演" }
+    ],
+    100: [
+        { word: "file", ipa: "[fɑɪl]", chinese: "檔案" },
+        { word: "lock", ipa: "[lɑk]", chinese: "鎖" },
+        { word: "stove", ipa: "[stov]", chinese: "爐子" },
+        { word: "tool", ipa: "[tul]", chinese: "工具" },
+        { word: "operate", ipa: "[ˈɑpəˌret]", chinese: "操作" },
+        { word: "customer", ipa: "[ˈkʌstəmɚ]", chinese: "顧客" },
+        { word: "interview", ipa: "[ˈɪntɚˌvju]", chinese: "面試" },
+        { word: "apply", ipa: "[əˈplɑɪ]", chinese: "申請" }
+    ],
+    101: [
+        { word: "lazy", ipa: "[ˈlezɪ]", chinese: "懶惰的" },
+        { word: "waste", ipa: "[west]", chinese: "浪費" },
+        { word: "price", ipa: "[prɑɪs]", chinese: "價錢" },
+        { word: "owner", ipa: "[ˈonɚ]", chinese: "擁有者" },
+        { word: "support", ipa: "[səˈport]", chinese: "支持" },
+        { word: "contain", ipa: "[kənˈten]", chinese: "包含" },
+        { word: "receive", ipa: "[rɪˈsiv]", chinese: "收到" },
+        { word: "discount", ipa: "[ˈdɪskɑʊnt]", chinese: "折扣" }
+    ],
+    102: [
+        { word: "blow up", ipa: "[blo] [ʌp]", chinese: "把…吹大" },
+        { word: "topic", ipa: "[ˈtɑpɪk]", chinese: "題目" },
+        { word: "limit", ipa: "[ˈlɪmɪt]", chinese: "限度" },
+        { word: "wedding", ipa: "[ˈwɛdɪŋ]", chinese: "婚禮" },
+        { word: "congratulations", ipa: "[kənˌɡrætʃəˈleʃənz]", chinese: "恭喜" },
+        { word: "fee", ipa: "[fi]", chinese: "費用" }
+    ],
+    103: [
+        { word: "all the way", ipa: "[ɔl] [ðə] [we]", chinese: "一路上" },
+        { word: "order", ipa: "[ˈɔrdɚ]", chinese: "順序" },
+        { word: "look forward to", ipa: "[lʊk] [ˈfɔrwɚd] [tu]", chinese: "期待" },
+        { word: "separate", ipa: "[ˈsɛpəˌret]", chinese: "分開" },
+        { word: "garage", ipa: "[ɡəˈrɑʒ]", chinese: "車庫" },
+        { word: "iron", ipa: "[ˈɑɪɚn]", chinese: "燙衣服" },
+        { word: "celebrate", ipa: "[ˈsɛləˌbret]", chinese: "慶祝" },
+        { word: "entire", ipa: "[ɪnˈtɑɪr]", chinese: "整個的" }
+    ],
+    104: [
+        { word: "ladder", ipa: "[ˈlædɚ]", chinese: "梯子" },
+        { word: "college", ipa: "[ˈkɑlɪdʒ]", chinese: "學院" },
+        { word: "save", ipa: "[sev]", chinese: "存" },
+        { word: "clear", ipa: "[klɪr]", chinese: "晴朗的" },
+        { word: "pack", ipa: "[pæk]", chinese: "打包" },
+        { word: "suitcase", ipa: "[ˈsutˌkɛs]", chinese: "手提箱" }
+    ],
+    105: [
+        { word: "spend", ipa: "[spɛnd]", chinese: "度過" },
+        { word: "picnic", ipa: "[ˈpɪknɪk]", chinese: "野餐" },
+        { word: "start", ipa: "[stɑrt]", chinese: "發動" },
+        { word: "wonder", ipa: "[ˈwʌndɚ]", chinese: "想知道" },
+        { word: "sign", ipa: "[sɑɪn]", chinese: "簽名" },
+        { word: "trip", ipa: "[trɪp]", chinese: "旅行" },
+        { word: "fire", ipa: "[fɑɪr]", chinese: "開除" },
+        { word: "salary", ipa: "[ˈsæləri]", chinese: "薪水" }
+    ],
+    106: [
+        { word: "crazy about", ipa: "[ˈkrezɪ] [əˈbɑʊt]", chinese: "對…瘋狂" },
+        { word: "bear", ipa: "[bɛr]", chinese: "熊" },
+        { word: "popular", ipa: "[ˈpɑpjəlɚ]", chinese: "受歡迎的" },
+        { word: "fasten", ipa: "[ˈfæsən]", chinese: "繫緊" },
+        { word: "hunt", ipa: "[hʌnt]", chinese: "打獵" },
+        { word: "as soon as", ipa: "[æz] [sun] [æz]", chinese: "一…就…" },
+        { word: "search", ipa: "[sɝtʃ]", chinese: "搜尋" },
+        { word: "rope", ipa: "[rop]", chinese: "繩索" }
+    ],
+    107: [
+        { word: "front door", ipa: "[frʌnt] [dor]", chinese: "前門" },
+        { word: "robot", ipa: "[ˈrobɑt]", chinese: "機器人" },
+        { word: "pass", ipa: "[pæs]", chinese: "通過" },
+        { word: "rule", ipa: "[rul]", chinese: "規則" },
+        { word: "advice", ipa: "[ədˈvɑɪs]", chinese: "建議" },
+        { word: "fortune", ipa: "[ˈfɔrtʃən]", chinese: "命運" }
+    ],
+    108: [
+        { word: "believe", ipa: "[bɪˈliv]", chinese: "相信" },
+        { word: "zone", ipa: "[zon]", chinese: "地區" },
+        { word: "ahead", ipa: "[əˈhɛd]", chinese: "在前方" },
+        { word: "behind", ipa: "[bɪˈhɑɪnd]", chinese: "在…的後面" },
+        { word: "lawyer", ipa: "[ˈlɔjɚ]", chinese: "律師" },
+        { word: "polite", ipa: "[pəˈlɑɪt]", chinese: "有禮貌的" }
+    ],
+    109: [
+        { word: "rain coat", ipa: "[ˈrɛnˌkot]", chinese: "雨衣" },
+        { word: "sorry", ipa: "[ˈsɔrɪ]", chinese: "後悔" },
+        { word: "soaking wet", ipa: "[ˈsokɪŋ] [wɛt]", chinese: "溼透了" },
+        { word: "catch", ipa: "[kætʃ]", chinese: "得到(疾病)" },
+        { word: "middle", ipa: "[ˈmɪdl]", chinese: "中間" },
+        { word: "center", ipa: "[ˈsɛntɚ]", chinese: "中央" },
+        { word: "judge", ipa: "[dʒʌdʒ]", chinese: "評斷" },
+        { word: "damage", ipa: "[ˈdæmɪdʒ]", chinese: "損害" }
+    ],
+    110: [
+        { word: "paint", ipa: "[pent]", chinese: "著色" },
+        { word: "pick", ipa: "[pɪk]", chinese: "摘" },
+        { word: "move", ipa: "[muv]", chinese: "搬遷" },
+        { word: "weigh", ipa: "[we]", chinese: "秤重" },
+        { word: "steal", ipa: "[stil]", chinese: "偷" },
+        { word: "insect", ipa: "[ˈɪnsɛkt]", chinese: "昆蟲" },
+        { word: "bone", ipa: "[bon]", chinese: "骨頭" },
+        { word: "land", ipa: "[lænd]", chinese: "陸地" }
+    ],
+    111: [
+        { word: "fireman", ipa: "[ˈfɑɪrmən]", chinese: "消防員" },
+        { word: "reach", ipa: "[ritʃ]", chinese: "碰觸到" },
+        { word: "just in time", ipa: "[dʒʌst] [ɪn] [tɑɪm]", chinese: "及時" },
+        { word: "spread", ipa: "[sprɛd]", chinese: "散佈" },
+        { word: "seed", ipa: "[sid]", chinese: "種子" },
+        { word: "area", ipa: "[ˈɛrɪə]", chinese: "區域" },
+        { word: "common", ipa: "[ˈkɑmən]", chinese: "常見的" },
+        { word: "climate", ipa: "[ˈklɑɪmɪt]", chinese: "氣候" }
+    ],
+    112: [
+        { word: "quarter", ipa: "[ˈkwɔrtɚ]", chinese: "一刻鐘" },
+        { word: "death", ipa: "[dɛθ]", chinese: "死亡" },
+        { word: "marriage", ipa: "[ˈmærɪdʒ]", chinese: "婚姻" },
+        { word: "shot", ipa: "[ʃɑt]", chinese: "射擊" },
+        { word: "present", ipa: "[ˈprɛzənt]", chinese: "在場的" },
+        { word: "immediately", ipa: "[ɪˈmidɪətli]", chinese: "立即地" }
+    ],
+    113: [
+        { word: "errand", ipa: "[ˈɛrənd]", chinese: "差事" },
+        { word: "anyway", ipa: "[ˈɛnɪˌwe]", chinese: "無論如何" },
+        { word: "cream", ipa: "[krim]", chinese: "奶油" },
+        { word: "storm", ipa: "[stɔrm]", chinese: "暴風雨" },
+        { word: "airport", ipa: "[ˈɛrˌport]", chinese: "機場" },
+        { word: "injure", ipa: "[ˈɪndʒɚ]", chinese: "受傷" }
+    ],
+    114: [
+        { word: "blow out", ipa: "[blo] [ɑʊt]", chinese: "吹熄" },
+        { word: "principal", ipa: "[ˈprɪnsəpl]", chinese: "校長" },
+        { word: "van", ipa: "[væn]", chinese: "箱型車" },
+        { word: "hospital", ipa: "[ˈhɑspɪtl]", chinese: "醫院" },
+        { word: "cough", ipa: "[kɔf]", chinese: "咳嗽" },
+        { word: "sore throat", ipa: "[sor] [θrot]", chinese: "喉嚨痛" }
+    ],
+    115: [
+        { word: "learn", ipa: "[lɝn]", chinese: "學習" },
+        { word: "in front of", ipa: "[ɪn] [frʌnt] [əv]", chinese: "在…的前面" },
+        { word: "street light", ipa: "[strit] [lɑɪt]", chinese: "街燈" },
+        { word: "hurt", ipa: "[hɝt]", chinese: "受傷" },
+        { word: "seem", ipa: "[sim]", chinese: "似乎" },
+        { word: "invite", ipa: "[ɪnˈvɑɪt]", chinese: "邀請" }
+    ],
+    116: [
+        { word: "prepare", ipa: "[prɪˈpɛr]", chinese: "準備" },
+        { word: "furniture", ipa: "[ˈfɝnɪtʃɚ]", chinese: "傢俱" },
+        { word: "basement", ipa: "[ˈbesmənt]", chinese: "地下室" },
+        { word: "dessert", ipa: "[dɪˈzɝt]", chinese: "甜點" },
+        { word: "guest", ipa: "[ɡɛst]", chinese: "客人" },
+        { word: "mile", ipa: "[mɑɪl]", chinese: "英哩" },
+        { word: "poor", ipa: "[pʊr]", chinese: "可憐的" },
+        { word: "magazine", ipa: "[ˌmæɡəˈzin]", chinese: "雜誌" }
+    ],
+    117: [
+        { word: "electricity", ipa: "[ɪˌlɛkˈtrɪsətɪ]", chinese: "電力" },
+        { word: "change", ipa: "[tʃendʒ]", chinese: "更換" },
+        { word: "light bulb", ipa: "[lɑɪt] [bʌlb]", chinese: "燈泡" },
+        { word: "switch", ipa: "[swɪtʃ]", chinese: "開關" },
+        { word: "electric shock", ipa: "[ɪˈlɛktrɪk] [ʃɑk]", chinese: "觸電" },
+        { word: "relative", ipa: "[ˈrɛlətɪv]", chinese: "親戚" }
+    ],
+    118: [
+        { word: "dead", ipa: "[dɛd]", chinese: "死亡的" },
+        { word: "century", ipa: "[ˈsɛntʃurɪ]", chinese: "世紀" },
+        { word: "produce", ipa: "[prəˈdjus]", chinese: "生產" },
+        { word: "material", ipa: "[məˈtɪrɪəl]", chinese: "材料" },
+        { word: "ability", ipa: "[əˈbɪlətɪ]", chinese: "能力" },
+        { word: "truth", ipa: "[truθ]", chinese: "真實" },
+        { word: "whether", ipa: "[ˈhwɛðɚ]", chinese: "是否" },
+        { word: "form", ipa: "[fɔrm]", chinese: "格式" }
+    ],
+    119: [
+        { word: "semester", ipa: "[səˈmɛstɚ]", chinese: "學期" },
+        { word: "report card", ipa: "[rɪˈport] [kɑrd]", chinese: "成績單" },
+        { word: "mine", ipa: "[mɑɪn]", chinese: "我的" },
+        { word: "belong", ipa: "[bɪˈlɔŋ]", chinese: "屬於" },
+        { word: "formal", ipa: "[ˈfɔrml]", chinese: "正式的" },
+        { word: "poor", ipa: "[pʊr]", chinese: "可憐的" },
+        { word: "practice", ipa: "[ˈpræktɪs]", chinese: "練習" },
+        { word: "model", ipa: "[ˈmɑdl]", chinese: "模特兒" }
+    ],
+    120: [
+        { word: "information", ipa: "[ˌɪnfɚˈmeʃən]", chinese: "資料" },
+        { word: "factory", ipa: "[ˈfækˌtɛrɪ]", chinese: "工廠" },
+        { word: "whole", ipa: "[hol]", chinese: "整個的" },
+        { word: "express", ipa: "[ɪkˈsprɛs]", chinese: "表達" },
+        { word: "surprise", ipa: "[sɚˈprɑɪz]", chinese: "驚喜" },
+        { word: "comfortable", ipa: "[ˈkʌmfɚtəbl]", chinese: "舒適的" },
+        { word: "product", ipa: "[ˈprɑdəkt]", chinese: "產品" },
+        { word: "wax", ipa: "[wæks]", chinese: "蠟；打蠟" }
+    ]
+};

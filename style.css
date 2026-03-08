@@ -813,3 +813,80 @@ textarea {
         line-height: 1.1 !important;
     }
 }
+
+/* Gloria Test Styles */
+.gloria-game-container {
+    max-width: 600px;
+    width: 90%;
+}
+
+.lesson-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.lesson-btn {
+    padding: 12px;
+    background: white;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+}
+
+.lesson-btn:hover {
+    border-color: var(--primary);
+    background: rgba(79, 70, 229, 0.05);
+    transform: translateY(-2px);
+}
+
+.gloria-input-wrapper {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+#gloria-answer-input {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.5rem;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    text-align: center;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+#gloria-answer-input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+}
+
+.gloria-feedback {
+    margin-top: 10px;
+    font-weight: 700;
+}
+
+.gloria-correct {
+    color: var(--success);
+}
+
+.gloria-incorrect {
+    color: var(--secondary);
+}
+
+#btn-gloria-speak {
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 4px 6px rgba(79, 70, 229, 0.2);
+}
+
+#btn-gloria-speak:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(79, 70, 229, 0.3);
+}

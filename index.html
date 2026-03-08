@@ -31,6 +31,7 @@
                     <button id="btn-quiz" class="btn-warning">🎮 進入測驗遊戲</button>
                     <button id="btn-spelling" class="btn-info">✨ 拼字比賽</button>
                     <button id="btn-dialogue" class="btn-primary">💬 情境對話</button>
+                    <button id="btn-gloria" class="btn-warning">🎓 葛洛莉單字考試</button>
                     <button id="btn-print" class="btn-success">🖨️ 列印 A4 (50格卡片)</button>
                 </div>
 
@@ -179,6 +180,58 @@
                 <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
                     <button id="btn-next-dialogue" class="btn-primary">下一個場景</button>
                     <button id="btn-restart-dialogue" class="btn-secondary">重新挑戰</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 葛洛莉單字考試容器 -->
+    <div id="gloria-overlay" class="quiz-overlay hidden no-print">
+        <div class="quiz-container glass gloria-game-container">
+            <div class="quiz-header">
+                <h2 id="gloria-title">葛洛莉單字考試</h2>
+                <button id="btn-close-gloria" class="btn-close">×</button>
+            </div>
+
+            <div id="gloria-lesson-selector" class="lesson-grid">
+                <!-- 課程按鈕將動態產生 -->
+            </div>
+
+            <div id="gloria-question-area" class="hidden">
+                <div class="quiz-header">
+                    <h2 id="gloria-progress">題目 1 / 10</h2>
+                </div>
+                <div class="gloria-question-content"
+                    style="display: flex; align-items: center; justify-content: center; gap: 20px; margin-bottom: 30px;">
+                    <div id="gloria-chinese-display"
+                        style="font-size: 2.5rem; font-weight: 700; color: var(--text-main);">
+                    </div>
+                    <button id="btn-gloria-speak" class="btn-primary"
+                        style="width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; padding: 0; flex-shrink: 0;">🔊</button>
+                </div>
+
+                <div class="gloria-input-wrapper">
+                    <input type="text" id="gloria-answer-input" placeholder="請輸入英文單字..." autocomplete="off">
+                    <button id="btn-gloria-submit" class="btn-primary" style="margin-top: 20px; width: 100%;">確定
+                        (Enter)</button>
+                </div>
+                <div id="gloria-feedback" class="gloria-feedback"
+                    style="text-align: center; margin-top: 20px; font-size: 1.2rem;"></div>
+            </div>
+
+            <!-- 葛洛莉考試結算畫面 -->
+            <div id="gloria-result-area" class="hidden">
+                <div class="result-summary">
+                    <h3 id="gloria-result-title">考試完成！</h3>
+                    <div class="accuracy-score">正確率：<span id="gloria-accuracy">0%</span></div>
+                </div>
+                <div class="result-list" id="gloria-result-list">
+                    <!-- 每題結果列表 -->
+                </div>
+                <div style="display: flex; gap: 10px; justify-content: center;">
+                    <button id="btn-restart-gloria" class="btn-primary">重新選擇課程</button>
+                    <button id="btn-close-gloria-final" class="btn-secondary">結束</button>
                 </div>
             </div>
         </div>
