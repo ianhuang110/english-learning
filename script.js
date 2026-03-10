@@ -95,6 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let gloriaResults = [];
     let currentGloriaLesson = '';
     let speechInitialized = false;
+    let gloriaWaitingForManualNext = false;
 
     // Difficulty Toggle Events
     document.querySelectorAll('input[name="difficulty"]').forEach(radio => {
@@ -208,10 +209,16 @@ document.addEventListener('DOMContentLoaded', () => {
         gloriaChineseDisplay.textContent = wordObj.chinese;
         gloriaAnswerInput.value = '';
         gloriaFeedback.textContent = '';
+        gloriaWaitingForManualNext = false;
         gloriaAnswerInput.focus();
     }
 
     function checkGloriaAnswer() {
+        if (gloriaWaitingForManualNext) {
+            nextGloriaQuestion();
+            return;
+        }
+
         const userInput = gloriaAnswerInput.value.trim().toLowerCase();
         const correctWord = currentGloriaWords[currentGloriaIndex].word.toLowerCase();
         const isCorrect = userInput === correctWord;
@@ -228,7 +235,7 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => nextGloriaQuestion(), 500);
         } else {
             gloriaFeedback.innerHTML = `<span class="gloria-incorrect">✗ 錯誤！答案是: ${currentGloriaWords[currentGloriaIndex].word}</span>`;
-            setTimeout(() => nextGloriaQuestion(), 1500);
+            gloriaWaitingForManualNext = true;
         }
     }
 
@@ -934,7 +941,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         utterance.lang = 'en-US';
-        utterance.rate = 0.9;
+        utterance.rate = 0.7;
         utterance.volume = 1.0;
 
         // Some mobile browsers need a resume if they stuck
