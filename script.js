@@ -941,7 +941,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         utterance.lang = 'en-US';
-        utterance.rate = 0.7;
+        utterance.rate = 0.55;
         utterance.volume = 1.0;
 
         // Some mobile browsers need a resume if they stuck
