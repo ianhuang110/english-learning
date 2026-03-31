@@ -1455,4 +1455,274 @@ document.addEventListener('DOMContentLoaded', () => {
             idiomsResultList.appendChild(item);
         });
     }
+
+    // --- IRREGULAR VERBS MODULE DOM & STATE ---
+    const btnIrregular = document.getElementById('btn-irregular');
+    const irregularOverlay = document.getElementById('irregular-overlay');
+    const btnCloseIrregular = document.getElementById('btn-close-irregular');
+    const irregularLessonSelector = document.getElementById('irregular-lesson-selector');
+    const irregularQuestionArea = document.getElementById('irregular-question-area');
+    const irregularProgress = document.getElementById('irregular-progress');
+    const irregularBaseDisplay = document.getElementById('irregular-base-display');
+    const irregularPastInput = document.getElementById('irregular-past-input');
+    const irregularPpInput = document.getElementById('irregular-pp-input');
+    const irregularChineseInput = document.getElementById('irregular-chinese-input');
+    const btnIrregularSubmit = document.getElementById('btn-irregular-submit');
+    const irregularFeedback = document.getElementById('irregular-feedback');
+    const irregularResultArea = document.getElementById('irregular-result-area');
+    const irregularAccuracy = document.getElementById('irregular-accuracy');
+    const irregularResultList = document.getElementById('irregular-result-list');
+    const irregularResultTitle = document.getElementById('irregular-result-title');
+    const btnRestartIrregular = document.getElementById('btn-restart-irregular');
+    const btnCloseIrregularFinal = document.getElementById('btn-close-irregular-final');
+    const btnIrregularPrev = document.getElementById('btn-irregular-prev');
+    const btnIrregularSpeak = document.getElementById('btn-irregular-speak');
+
+    let currentIrregularWords = [];
+    let currentIrregularIndex = 0;
+    let irregularResults = [];
+    let currentIrregularLesson = '';
+    let irregularWaitingForManualNext = false;
+    let currentIrregularWrongAttempts = 0;
+
+    // --- IRREGULAR VERBS MODULE EVENTS ---
+    if (btnIrregular) {
+        btnIrregular.addEventListener('click', () => {
+            initIrregularTest();
+        });
+    }
+
+    if (btnCloseIrregular) {
+        btnCloseIrregular.addEventListener('click', () => {
+            irregularOverlay.classList.add('hidden');
+        });
+    }
+
+    if (btnIrregularSpeak) {
+        btnIrregularSpeak.addEventListener('click', () => {
+            if (currentIrregularWords[currentIrregularIndex]) {
+                speak(currentIrregularWords[currentIrregularIndex].base, 0.55);
+            }
+        });
+    }
+
+    if (btnIrregularPrev) {
+        btnIrregularPrev.addEventListener('click', () => {
+            if (currentIrregularIndex > 0) {
+                currentIrregularIndex--;
+                irregularResults.pop();
+                showIrregularQuestion();
+            }
+        });
+    }
+
+    if (btnIrregularSubmit) {
+        btnIrregularSubmit.addEventListener('click', () => {
+            checkIrregularAnswer();
+        });
+    }
+
+    [irregularPastInput, irregularPpInput, irregularChineseInput].forEach(input => {
+        if (input) {
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') checkIrregularAnswer();
+            });
+        }
+    });
+
+    if (btnRestartIrregular) {
+        btnRestartIrregular.addEventListener('click', () => {
+            initIrregularTest();
+        });
+    }
+
+    if (btnCloseIrregularFinal) {
+        btnCloseIrregularFinal.addEventListener('click', () => {
+            irregularOverlay.classList.add('hidden');
+        });
+    }
+
+    // --- IRREGULAR VERBS MODULE LOGIC ---
+    function initIrregularTest() {
+        if (!irregularOverlay) return;
+        irregularOverlay.classList.remove('hidden');
+        irregularLessonSelector.classList.remove('hidden');
+        irregularQuestionArea.classList.add('hidden');
+        irregularResultArea.classList.add('hidden');
+        renderIrregularLessonSelector();
+    }
+
+    function renderIrregularLessonSelector() {
+        if (!irregularLessonSelector || typeof IRREGULAR_VERBS_DATA === 'undefined') return;
+        irregularLessonSelector.innerHTML = '';
+        const lessons = Object.keys(IRREGULAR_VERBS_DATA);
+        lessons.forEach(lessonName => {
+            const btn = document.createElement('div');
+            btn.className = 'lesson-btn';
+            btn.textContent = lessonName;
+            btn.onclick = () => {
+                initSpeech();
+                startIrregularLesson(lessonName);
+            };
+            irregularLessonSelector.appendChild(btn);
+        });
+    }
+
+    function startIrregularLesson(lessonName) {
+        currentIrregularLesson = lessonName;
+        currentIrregularWords = IRREGULAR_VERBS_DATA[lessonName];
+        currentIrregularIndex = 0;
+        irregularResults = [];
+        irregularLessonSelector.classList.add('hidden');
+        irregularQuestionArea.classList.remove('hidden');
+        showIrregularQuestion();
+    }
+
+    function showIrregularQuestion() {
+        const wordObj = currentIrregularWords[currentIrregularIndex];
+        irregularProgress.textContent = `${currentIrregularLesson} - 題目 ${currentIrregularIndex + 1} / ${currentIrregularWords.length}`;
+        irregularBaseDisplay.textContent = wordObj.base;
+        
+        irregularPastInput.value = '';
+        irregularPpInput.value = '';
+        irregularChineseInput.value = '';
+        irregularFeedback.textContent = '';
+        irregularWaitingForManualNext = false;
+        currentIrregularWrongAttempts = 0;
+
+        if (btnIrregularPrev) {
+            btnIrregularPrev.style.display = currentIrregularIndex > 0 ? "block" : "none";
+        }
+
+        // Feature: Hide Past Participle if it's "-"
+        if (wordObj.pp === "-") {
+            irregularPpInput.style.display = 'none';
+        } else {
+            irregularPpInput.style.display = 'block';
+        }
+
+        irregularPastInput.focus();
+
+        setTimeout(() => {
+            if (btnIrregularSpeak) {
+               speak(currentIrregularWords[currentIrregularIndex].base, 0.55);
+            }
+        }, 100);
+    }
+
+    function checkIrregularAnswer() {
+        if (irregularWaitingForManualNext) {
+            nextIrregularQuestion();
+            return;
+        }
+
+        const wordObj = currentIrregularWords[currentIrregularIndex];
+        const userPast = irregularPastInput.value.trim().toLowerCase();
+        const userPp = irregularPpInput.value.trim().toLowerCase();
+        const userChinese = irregularChineseInput.value.trim();
+        
+        const correctPast = wordObj.past.toLowerCase();
+        const correctPp = wordObj.pp.toLowerCase();
+        
+        // Handle chinese multiple exact matches
+        const acceptedChineseList = wordObj.chinese.split(/[；;、,，]/).map(c => c.trim()).filter(Boolean);
+        
+        let isPastCorrect = (userPast === correctPast);
+        let isPpCorrect = (wordObj.pp === "-") ? true : (userPp === correctPp);
+        let isChineseCorrect = acceptedChineseList.some(c => c === userChinese);
+
+        let isCorrect = isPastCorrect && isPpCorrect && isChineseCorrect;
+
+        if (isCorrect) {
+            irregularResults.push({
+                base: wordObj.base,
+                past: wordObj.past,
+                pp: wordObj.pp,
+                chinese: wordObj.chinese,
+                isCorrect: true,
+                userAnswer: `${userPast} / ${wordObj.pp === '-' ? '-' : userPp} / ${userChinese}`
+            });
+            irregularFeedback.innerHTML = '<span class="gloria-correct">✓ 完全正確！</span>';
+            setTimeout(() => nextIrregularQuestion(), 500);
+        } else {
+            currentIrregularWrongAttempts++;
+            if (currentIrregularWrongAttempts >= 3) {
+                irregularResults.push({
+                    base: wordObj.base,
+                    past: wordObj.past,
+                    pp: wordObj.pp,
+                    chinese: wordObj.chinese,
+                    isCorrect: false,
+                    userAnswer: `${userPast} / ${wordObj.pp === '-' ? '-' : userPp} / ${userChinese}`
+                });
+                let correctStr = `過去式: ${wordObj.past}, 過去分詞: ${wordObj.pp}, 中文: ${wordObj.chinese}`;
+                if (wordObj.pp === "-") correctStr = `過去式: ${wordObj.past}, 中文: ${wordObj.chinese}`;
+                
+                irregularFeedback.innerHTML = `<span class="gloria-incorrect" style="color: #ef4444;">✗ 錯誤！答案是: ${correctStr}</span>`;
+                irregularWaitingForManualNext = true;         
+            } else {
+                let errorMsg = '✗ 答錯了！';
+                
+                let errors = [];
+                if (!isPastCorrect) errors.push('過去式');
+                if (!isPpCorrect) errors.push('過去分詞');
+                if (!isChineseCorrect) errors.push('中文翻譯');
+                
+                errorMsg = `✗ ${errors.join('、')} 錯誤！`;
+                
+                irregularFeedback.innerHTML = `<span class="gloria-incorrect" style="color: #f59e0b;">${errorMsg} 再試一次 (${currentIrregularWrongAttempts}/3)</span>`;
+                
+                if (!isPastCorrect) {
+                     irregularPastInput.value = '';
+                     irregularPastInput.focus();
+                } else if (!isPpCorrect && wordObj.pp !== '-') {
+                     irregularPpInput.value = '';
+                     irregularPpInput.focus();
+                } else if (!isChineseCorrect) {
+                     irregularChineseInput.value = '';
+                     irregularChineseInput.focus();
+                }
+            }
+        }
+    }
+
+    function nextIrregularQuestion() {
+        currentIrregularIndex++;
+        if (currentIrregularIndex < currentIrregularWords.length) {
+            showIrregularQuestion();
+        } else {
+            showIrregularResults();
+        }
+    }
+
+    function showIrregularResults() {
+        irregularQuestionArea.classList.add('hidden');
+        irregularResultArea.classList.remove('hidden');
+        if (irregularResultTitle) irregularResultTitle.textContent = `${currentIrregularLesson} 測驗完成！`;
+
+        const correctCount = irregularResults.filter(r => r.isCorrect).length;
+        const accuracy = Math.round((correctCount / irregularResults.length) * 100);
+        irregularAccuracy.textContent = `${accuracy}%`;
+
+        irregularResultList.innerHTML = '';
+        irregularResults.forEach((res) => {
+            const item = document.createElement('div');
+            item.className = 'result-item';
+            
+            let correctStr = `${res.past} / ${res.pp} / ${res.chinese}`;
+            if (res.pp === "-") correctStr = `${res.past} / ${res.chinese}`;
+
+            item.innerHTML = `
+                <div class="result-status ${res.isCorrect ? 'status-correct' : 'status-incorrect'}">
+                    ${res.isCorrect ? '✓' : '✗'}
+                </div>
+                <div class="result-info">
+                    <strong style="font-size: 1.2rem;">${res.base}</strong>
+                    <span>正解：${correctStr}</span>
+                    ${!res.isCorrect ? `<span style="color: #ef4444; font-size: 0.9rem;">你寫作：${res.userAnswer}</span>` : ''}
+                </div>
+            `;
+            irregularResultList.appendChild(item);
+        });
+    }
 });

@@ -1343,3 +1343,751 @@ const IDIOMS_DATA = {
         }
     ]
 };
+
+
+const IRREGULAR_VERBS_DATA = {
+    "Unit 1": [
+        {
+            "base": "bet",
+            "past": "bet",
+            "pp": "bet",
+            "chinese": "打賭"
+        },
+        {
+            "base": "cut",
+            "past": "cut",
+            "pp": "cut",
+            "chinese": "切割"
+        },
+        {
+            "base": "fit",
+            "past": "fit",
+            "pp": "fit",
+            "chinese": "適合"
+        },
+        {
+            "base": "hit",
+            "past": "hit",
+            "pp": "hit",
+            "chinese": "打"
+        },
+        {
+            "base": "hurt",
+            "past": "hurt",
+            "pp": "hurt",
+            "chinese": "傷害;受傷"
+        }
+    ],
+    "Unit 2": [
+        {
+            "base": "let",
+            "past": "let",
+            "pp": "let",
+            "chinese": "讓"
+        },
+        {
+            "base": "put",
+            "past": "put",
+            "pp": "put",
+            "chinese": "放"
+        },
+        {
+            "base": "quit",
+            "past": "quit",
+            "pp": "quit",
+            "chinese": "辭去"
+        },
+        {
+            "base": "read",
+            "past": "read",
+            "pp": "read",
+            "chinese": "讀"
+        },
+        {
+            "base": "set",
+            "past": "set",
+            "pp": "set",
+            "chinese": "擺放"
+        }
+    ],
+    "Unit 3": [
+        {
+            "base": "shut",
+            "past": "shut",
+            "pp": "shut",
+            "chinese": "關閉"
+        },
+        {
+            "base": "wet",
+            "past": "wet",
+            "pp": "wet",
+            "chinese": "使...溼"
+        },
+        {
+            "base": "build",
+            "past": "built",
+            "pp": "built",
+            "chinese": "建造"
+        },
+        {
+            "base": "bend",
+            "past": "bent",
+            "pp": "bent",
+            "chinese": "使彎曲"
+        },
+        {
+            "base": "lend",
+            "past": "lent",
+            "pp": "lent",
+            "chinese": "借(給他人)"
+        }
+    ],
+    "Unit 4": [
+        {
+            "base": "send",
+            "past": "sent",
+            "pp": "sent",
+            "chinese": "寄"
+        },
+        {
+            "base": "spend",
+            "past": "spent",
+            "pp": "spent",
+            "chinese": "花(錢;時間)"
+        },
+        {
+            "base": "pay",
+            "past": "paid",
+            "pp": "paid",
+            "chinese": "付款"
+        },
+        {
+            "base": "say",
+            "past": "said",
+            "pp": "said",
+            "chinese": "說"
+        },
+        {
+            "base": "sell",
+            "past": "sold",
+            "pp": "sold",
+            "chinese": "賣"
+        }
+    ],
+    "Unit 5": [
+        {
+            "base": "tell",
+            "past": "told",
+            "pp": "told",
+            "chinese": "告訴"
+        },
+        {
+            "base": "bring",
+            "past": "brought",
+            "pp": "brought",
+            "chinese": "帶來"
+        },
+        {
+            "base": "buy",
+            "past": "bought",
+            "pp": "bought",
+            "chinese": "買"
+        },
+        {
+            "base": "fight",
+            "past": "fought",
+            "pp": "fought",
+            "chinese": "打架"
+        },
+        {
+            "base": "think",
+            "past": "thought",
+            "pp": "thought",
+            "chinese": "想"
+        }
+    ],
+    "Unit 6": [
+        {
+            "base": "catch",
+            "past": "caught",
+            "pp": "caught",
+            "chinese": "接;抓"
+        },
+        {
+            "base": "teach",
+            "past": "taught",
+            "pp": "taught",
+            "chinese": "教"
+        },
+        {
+            "base": "stand",
+            "past": "stood",
+            "pp": "stood",
+            "chinese": "站"
+        },
+        {
+            "base": "understand",
+            "past": "understood",
+            "pp": "understood",
+            "chinese": "了解"
+        },
+        {
+            "base": "creep",
+            "past": "crept",
+            "pp": "crept",
+            "chinese": "爬行;蔓延"
+        }
+    ],
+    "Unit 7": [
+        {
+            "base": "keep",
+            "past": "kept",
+            "pp": "kept",
+            "chinese": "保持;保留"
+        },
+        {
+            "base": "sleep",
+            "past": "slept",
+            "pp": "slept",
+            "chinese": "睡"
+        },
+        {
+            "base": "sweep",
+            "past": "swept",
+            "pp": "swept",
+            "chinese": "掃"
+        },
+        {
+            "base": "leave",
+            "past": "left",
+            "pp": "left",
+            "chinese": "離開"
+        },
+        {
+            "base": "bleed",
+            "past": "bled",
+            "pp": "bled",
+            "chinese": "流血"
+        }
+    ],
+    "Unit 8": [
+        {
+            "base": "breed",
+            "past": "bred",
+            "pp": "bred",
+            "chinese": "養育"
+        },
+        {
+            "base": "feed",
+            "past": "fed",
+            "pp": "fed",
+            "chinese": "餵"
+        },
+        {
+            "base": "lead",
+            "past": "led",
+            "pp": "led",
+            "chinese": "帶領"
+        },
+        {
+            "base": "meet",
+            "past": "met",
+            "pp": "met",
+            "chinese": "相遇"
+        },
+        {
+            "base": "speed",
+            "past": "sped",
+            "pp": "sped",
+            "chinese": "急行;急走"
+        }
+    ],
+    "Unit 9": [
+        {
+            "base": "shoot",
+            "past": "shot",
+            "pp": "shot",
+            "chinese": "發射"
+        },
+        {
+            "base": "make",
+            "past": "made",
+            "pp": "made",
+            "chinese": "做;製造"
+        },
+        {
+            "base": "hear",
+            "past": "heard",
+            "pp": "heard",
+            "chinese": "聽到"
+        },
+        {
+            "base": "have/has",
+            "past": "had",
+            "pp": "had",
+            "chinese": "有"
+        },
+        {
+            "base": "light",
+            "past": "lit",
+            "pp": "lit",
+            "chinese": "點燃"
+        }
+    ],
+    "Unit 10": [
+        {
+            "base": "slide",
+            "past": "slid",
+            "pp": "slid",
+            "chinese": "滑行"
+        },
+        {
+            "base": "dig",
+            "past": "dug",
+            "pp": "dug",
+            "chinese": "挖;掘"
+        },
+        {
+            "base": "stick",
+            "past": "stuck",
+            "pp": "stuck",
+            "chinese": "刺;插"
+        },
+        {
+            "base": "sting",
+            "past": "stung",
+            "pp": "stung",
+            "chinese": "以針刺;螫"
+        },
+        {
+            "base": "hang",
+            "past": "hung",
+            "pp": "hung",
+            "chinese": "掛"
+        }
+    ],
+    "Unit 11": [
+        {
+            "base": "strike",
+            "past": "struck",
+            "pp": "struck",
+            "chinese": "打;擊;敲"
+        },
+        {
+            "base": "feel",
+            "past": "felt",
+            "pp": "felt",
+            "chinese": "感覺"
+        },
+        {
+            "base": "hold",
+            "past": "held",
+            "pp": "held",
+            "chinese": "拿著"
+        },
+        {
+            "base": "spell",
+            "past": "spelt",
+            "pp": "spelt",
+            "chinese": "拼(字)"
+        },
+        {
+            "base": "spill",
+            "past": "spilt",
+            "pp": "spilt",
+            "chinese": "灑出;溢出"
+        }
+    ],
+    "Unit 12": [
+        {
+            "base": "mean",
+            "past": "meant",
+            "pp": "meant",
+            "chinese": "意思"
+        },
+        {
+            "base": "find",
+            "past": "found",
+            "pp": "found",
+            "chinese": "發現"
+        },
+        {
+            "base": "lose",
+            "past": "lost",
+            "pp": "lost",
+            "chinese": "失去"
+        },
+        {
+            "base": "win",
+            "past": "won",
+            "pp": "won",
+            "chinese": "贏"
+        },
+        {
+            "base": "sit",
+            "past": "sat",
+            "pp": "sat",
+            "chinese": "坐"
+        }
+    ],
+    "Unit 13": [
+        {
+            "base": "shine",
+            "past": "shone",
+            "pp": "shone",
+            "chinese": "照耀"
+        },
+        {
+            "base": "lay",
+            "past": "laid",
+            "pp": "laid",
+            "chinese": "置放"
+        },
+        {
+            "base": "can",
+            "past": "could",
+            "pp": "-",
+            "chinese": "能;會"
+        },
+        {
+            "base": "shall",
+            "past": "should",
+            "pp": "-",
+            "chinese": "將;會"
+        },
+        {
+            "base": "will",
+            "past": "would",
+            "pp": "-",
+            "chinese": "將...;會..."
+        }
+    ],
+    "Unit 14": [
+        {
+            "base": "may",
+            "past": "might",
+            "pp": "-",
+            "chinese": "可以"
+        },
+        {
+            "base": "become",
+            "past": "became",
+            "pp": "become",
+            "chinese": "成為"
+        },
+        {
+            "base": "come",
+            "past": "came",
+            "pp": "come",
+            "chinese": "來"
+        },
+        {
+            "base": "run",
+            "past": "ran",
+            "pp": "run",
+            "chinese": "跑"
+        },
+        {
+            "base": "begin",
+            "past": "began",
+            "pp": "begun",
+            "chinese": "開始"
+        }
+    ],
+    "Unit 15": [
+        {
+            "base": "drink",
+            "past": "drank",
+            "pp": "drunk",
+            "chinese": "喝"
+        },
+        {
+            "base": "ring",
+            "past": "rang",
+            "pp": "rung",
+            "chinese": "響"
+        },
+        {
+            "base": "sing",
+            "past": "sang",
+            "pp": "sung",
+            "chinese": "唱"
+        },
+        {
+            "base": "sink",
+            "past": "sank",
+            "pp": "sunk",
+            "chinese": "下沉"
+        },
+        {
+            "base": "swim",
+            "past": "swam",
+            "pp": "swum",
+            "chinese": "游泳"
+        }
+    ],
+    "Unit 16": [
+        {
+            "base": "blow",
+            "past": "blew",
+            "pp": "blown",
+            "chinese": "吹"
+        },
+        {
+            "base": "throw",
+            "past": "threw",
+            "pp": "thrown",
+            "chinese": "丟"
+        },
+        {
+            "base": "grow",
+            "past": "grew",
+            "pp": "grown",
+            "chinese": "生長"
+        },
+        {
+            "base": "know",
+            "past": "knew",
+            "pp": "known",
+            "chinese": "知道"
+        },
+        {
+            "base": "fly",
+            "past": "flew",
+            "pp": "flown",
+            "chinese": "飛"
+        }
+    ],
+    "Unit 17": [
+        {
+            "base": "show",
+            "past": "showed",
+            "pp": "shown",
+            "chinese": "顯露;展示"
+        },
+        {
+            "base": "draw",
+            "past": "drew",
+            "pp": "drawn",
+            "chinese": "畫"
+        },
+        {
+            "base": "tear",
+            "past": "tore",
+            "pp": "torn",
+            "chinese": "撕裂"
+        },
+        {
+            "base": "swear",
+            "past": "swore",
+            "pp": "sworn",
+            "chinese": "發誓"
+        },
+        {
+            "base": "wear",
+            "past": "wore",
+            "pp": "worn",
+            "chinese": "穿"
+        }
+    ],
+    "Unit 18": [
+        {
+            "base": "see",
+            "past": "saw",
+            "pp": "seen",
+            "chinese": "看見"
+        },
+        {
+            "base": "is",
+            "past": "was",
+            "pp": "been",
+            "chinese": "是"
+        },
+        {
+            "base": "am",
+            "past": "was",
+            "pp": "been",
+            "chinese": "是"
+        },
+        {
+            "base": "are",
+            "past": "were",
+            "pp": "been",
+            "chinese": "是"
+        },
+        {
+            "base": "do",
+            "past": "did",
+            "pp": "done",
+            "chinese": "做"
+        }
+    ],
+    "Unit 19": [
+        {
+            "base": "go",
+            "past": "went",
+            "pp": "gone",
+            "chinese": "去"
+        },
+        {
+            "base": "lie",
+            "past": "lay",
+            "pp": "lain",
+            "chinese": "臥;躺"
+        },
+        {
+            "base": "lie",
+            "past": "lied",
+            "pp": "lied",
+            "chinese": "說謊"
+        },
+        {
+            "base": "awake",
+            "past": "awoke",
+            "pp": "awoken",
+            "chinese": "叫醒"
+        },
+        {
+            "base": "bite",
+            "past": "bit",
+            "pp": "bitten",
+            "chinese": "咬"
+        }
+    ],
+    "Unit 20": [
+        {
+            "base": "break",
+            "past": "broke",
+            "pp": "broken",
+            "chinese": "打破"
+        },
+        {
+            "base": "choose",
+            "past": "chose",
+            "pp": "chosen",
+            "chinese": "選擇"
+        },
+        {
+            "base": "drive",
+            "past": "drove",
+            "pp": "driven",
+            "chinese": "開車"
+        },
+        {
+            "base": "eat",
+            "past": "ate",
+            "pp": "eaten",
+            "chinese": "吃"
+        },
+        {
+            "base": "fall",
+            "past": "fell",
+            "pp": "fallen",
+            "chinese": "掉落"
+        }
+    ],
+    "Unit 21": [
+        {
+            "base": "forget",
+            "past": "forgot",
+            "pp": "forgotten",
+            "chinese": "忘記"
+        },
+        {
+            "base": "forgive",
+            "past": "forgave",
+            "pp": "forgiven",
+            "chinese": "原諒"
+        },
+        {
+            "base": "freeze",
+            "past": "froze",
+            "pp": "frozen",
+            "chinese": "冰凍"
+        },
+        {
+            "base": "get",
+            "past": "got",
+            "pp": "gotten",
+            "chinese": "得到"
+        },
+        {
+            "base": "give",
+            "past": "gave",
+            "pp": "given",
+            "chinese": "給"
+        }
+    ],
+    "Unit 22": [
+        {
+            "base": "hide",
+            "past": "hid",
+            "pp": "hidden",
+            "chinese": "躲藏"
+        },
+        {
+            "base": "mistake",
+            "past": "mistook",
+            "pp": "mistaken",
+            "chinese": "誤解"
+        },
+        {
+            "base": "ride",
+            "past": "rode",
+            "pp": "ridden",
+            "chinese": "騎"
+        },
+        {
+            "base": "rise",
+            "past": "rose",
+            "pp": "risen",
+            "chinese": "升起"
+        },
+        {
+            "base": "shake",
+            "past": "shook",
+            "pp": "shaken",
+            "chinese": "搖擺"
+        }
+    ],
+    "Unit 23": [
+        {
+            "base": "speak",
+            "past": "spoke",
+            "pp": "spoken",
+            "chinese": "講"
+        },
+        {
+            "base": "steal",
+            "past": "stole",
+            "pp": "stolen",
+            "chinese": "偷"
+        },
+        {
+            "base": "take",
+            "past": "took",
+            "pp": "taken",
+            "chinese": "拿取"
+        },
+        {
+            "base": "wake",
+            "past": "woke",
+            "pp": "woken",
+            "chinese": "醒"
+        },
+        {
+            "base": "write",
+            "past": "wrote",
+            "pp": "written",
+            "chinese": "寫"
+        }
+    ],
+    "Unit 24": [
+        {
+            "base": "beat",
+            "past": "beat",
+            "pp": "beaten",
+            "chinese": "打;擊"
+        }
+    ]
+};
