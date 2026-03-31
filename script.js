@@ -214,7 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (btnSmartChoiceSpeak) {
         btnSmartChoiceSpeak.addEventListener('click', () => {
             if (currentSmartChoiceWords[currentSmartChoiceIndex]) {
-                speak(currentSmartChoiceWords[currentSmartChoiceIndex].word, 0.45); // Increase speed slightly
+                speak(currentSmartChoiceWords[currentSmartChoiceIndex].word, 0.55); // Adjust speed to 0.55
             }
         });
     }
