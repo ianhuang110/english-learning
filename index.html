@@ -32,6 +32,7 @@
                     <button id="btn-spelling" class="btn-info">✨ 拼字比賽</button>
                     <button id="btn-dialogue" class="btn-primary">💬 情境對話</button>
                     <button id="btn-gloria" class="btn-warning">🎓 葛洛莉單字考試</button>
+                    <button id="btn-smart-choice" class="btn-info" style="background: #ef4444; color: white; border: 2px solid white;">📚 SMART CHOICE 2</button>
                     <button id="btn-print" class="btn-success">🖨️ 列印 A4 (50格卡片)</button>
                 </div>
 
@@ -232,6 +233,61 @@
                 <div style="display: flex; gap: 10px; justify-content: center;">
                     <button id="btn-restart-gloria" class="btn-primary">重新選擇課程</button>
                     <button id="btn-close-gloria-final" class="btn-secondary">結束</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Smart Choice 2 考試容器 -->
+    <div id="smart-choice-overlay" class="quiz-overlay hidden no-print">
+        <div class="quiz-container glass smart-choice-game-container">
+            <div class="quiz-header">
+                <h2 id="smart-choice-title">SMART CHOICE 2 測驗</h2>
+                <button id="btn-close-smart-choice" class="btn-close">×</button>
+            </div>
+
+            <div id="smart-choice-lesson-selector" class="lesson-grid">
+                <!-- 課程按鈕將動態產生 -->
+            </div>
+
+            <div id="smart-choice-question-area" class="hidden">
+                <div class="quiz-header">
+                    <h2 id="smart-choice-progress">題目 1 / 10</h2>
+                </div>
+                <div class="smart-choice-question-content" style="text-align: center; margin-bottom: 30px; position: relative;">
+                    <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 10px;">
+                        <button id="btn-smart-choice-speak" class="btn-primary" style="width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; padding: 0; flex-shrink: 0;">🔊</button>
+                    </div>
+                    <div id="smart-choice-chinese-display" class="hidden" style="font-size: 2rem; font-weight: 700; color: var(--text-main); margin-bottom: 10px;"></div>
+                    <div id="smart-choice-sentence-display" style="font-size: 1.3rem; color: var(--text-muted); line-height: 1.6;"></div>
+                </div>
+
+                <div class="smart-choice-input-wrapper" style="display: flex; flex-direction: column; align-items: center;">
+                    <div style="display: flex; gap: 10px; width: 80%; justify-content: center;">
+                        <input type="text" id="smart-choice-answer-input" placeholder="單字..." autocomplete="off" style="width: 50%; padding: 15px; font-size: 1.5rem; text-align: center; border-radius: 10px; border: 2px solid var(--border-color); outline: none;">
+                        <input type="text" id="smart-choice-chinese-input" placeholder="中文翻譯..." autocomplete="off" style="width: 50%; padding: 15px; font-size: 1.5rem; text-align: center; border-radius: 10px; border: 2px solid var(--border-color); outline: none;">
+                    </div>
+                    
+                    <div style="display: flex; gap: 10px; width: 80%; justify-content: center; margin-top: 20px;">
+                        <button id="btn-smart-choice-prev" class="btn-secondary" style="width: 40%; padding: 15px; font-size: 1.2rem; justify-content: center; display: none;">上一題</button>
+                        <button id="btn-smart-choice-submit" class="btn-primary" style="width: 60%; padding: 15px; font-size: 1.2rem; justify-content: center;">確定 (Enter)</button>
+                    </div>
+                </div>
+                <div id="smart-choice-feedback" class="smart-choice-feedback" style="text-align: center; margin-top: 20px; font-size: 1.2rem; min-height: 30px;"></div>
+            </div>
+
+            <!-- SMART CHOICE 結算畫面 -->
+            <div id="smart-choice-result-area" class="hidden">
+                <div class="result-summary">
+                    <h3 id="smart-choice-result-title">測驗完成！</h3>
+                    <div class="accuracy-score">正確率：<span id="smart-choice-accuracy">0%</span></div>
+                </div>
+                <div class="result-list" id="smart-choice-result-list" style="max-height: 300px; overflow-y: auto; text-align: left;">
+                    <!-- 每題結果列表 -->
+                </div>
+                <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
+                    <button id="btn-restart-smart-choice" class="btn-primary">重新選擇單元</button>
+                    <button id="btn-close-smart-choice-final" class="btn-secondary">結束</button>
                 </div>
             </div>
         </div>

@@ -97,6 +97,35 @@ document.addEventListener('DOMContentLoaded', () => {
     let speechInitialized = false;
     let gloriaWaitingForManualNext = false;
 
+    // Smart Choice DOM & State
+    const btnSmartChoice = document.getElementById('btn-smart-choice');
+    const smartChoiceOverlay = document.getElementById('smart-choice-overlay');
+    const btnCloseSmartChoice = document.getElementById('btn-close-smart-choice');
+    const smartChoiceLessonSelector = document.getElementById('smart-choice-lesson-selector');
+    const smartChoiceQuestionArea = document.getElementById('smart-choice-question-area');
+    const smartChoiceProgress = document.getElementById('smart-choice-progress');
+    const smartChoiceChineseDisplay = document.getElementById('smart-choice-chinese-display');
+    const smartChoiceSentenceDisplay = document.getElementById('smart-choice-sentence-display');
+    const smartChoiceAnswerInput = document.getElementById('smart-choice-answer-input');
+    const smartChoiceChineseInput = document.getElementById('smart-choice-chinese-input');
+    const btnSmartChoiceSubmit = document.getElementById('btn-smart-choice-submit');
+    const smartChoiceFeedback = document.getElementById('smart-choice-feedback');
+    const smartChoiceResultArea = document.getElementById('smart-choice-result-area');
+    const smartChoiceAccuracy = document.getElementById('smart-choice-accuracy');
+    const smartChoiceResultList = document.getElementById('smart-choice-result-list');
+    const smartChoiceResultTitle = document.getElementById('smart-choice-result-title');
+    const btnRestartSmartChoice = document.getElementById('btn-restart-smart-choice');
+    const btnCloseSmartChoiceFinal = document.getElementById('btn-close-smart-choice-final');
+    const btnSmartChoicePrev = document.getElementById('btn-smart-choice-prev');
+    const btnSmartChoiceSpeak = document.getElementById('btn-smart-choice-speak');
+
+    let currentSmartChoiceWords = [];
+    let currentSmartChoiceIndex = 0;
+    let smartChoiceResults = [];
+    let currentSmartChoiceLesson = '';
+    let smartChoiceWaitingForManualNext = false;
+    let currentSmartChoiceWrongAttempts = 0;
+
     // Difficulty Toggle Events
     document.querySelectorAll('input[name="difficulty"]').forEach(radio => {
         radio.addEventListener('change', (e) => {
@@ -166,6 +195,222 @@ document.addEventListener('DOMContentLoaded', () => {
             if (currentGloriaWords[currentGloriaIndex]) {
                 speak(currentGloriaWords[currentGloriaIndex].word);
             }
+        });
+    }
+
+    // Smart Choice Events
+    if (btnSmartChoice) {
+        btnSmartChoice.addEventListener('click', () => {
+            initSmartChoiceTest();
+        });
+    }
+
+    if (btnCloseSmartChoice) {
+        btnCloseSmartChoice.addEventListener('click', () => {
+            smartChoiceOverlay.classList.add('hidden');
+        });
+    }
+
+    if (btnSmartChoiceSpeak) {
+        btnSmartChoiceSpeak.addEventListener('click', () => {
+            if (currentSmartChoiceWords[currentSmartChoiceIndex]) {
+                speak(currentSmartChoiceWords[currentSmartChoiceIndex].word, 0.45); // Increase speed slightly
+            }
+        });
+    }
+
+    if (btnSmartChoicePrev) {
+        btnSmartChoicePrev.addEventListener('click', () => {
+            if (currentSmartChoiceIndex > 0) {
+                // Return to previous question
+                currentSmartChoiceIndex--;
+                smartChoiceResults.pop(); // Remove the last result to avoid duplication
+                showSmartChoiceQuestion();
+            }
+        });
+    }
+
+    if (btnSmartChoiceSubmit) {
+        btnSmartChoiceSubmit.addEventListener('click', () => {
+            checkSmartChoiceAnswer();
+        });
+    }
+
+    if (smartChoiceAnswerInput) {
+        smartChoiceAnswerInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                checkSmartChoiceAnswer();
+            }
+        });
+    }
+
+    if (smartChoiceChineseInput) {
+        smartChoiceChineseInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                checkSmartChoiceAnswer();
+            }
+        });
+    }
+
+    if (btnRestartSmartChoice) {
+        btnRestartSmartChoice.addEventListener('click', () => {
+            initSmartChoiceTest();
+        });
+    }
+
+    if (btnCloseSmartChoiceFinal) {
+        btnCloseSmartChoiceFinal.addEventListener('click', () => {
+            smartChoiceOverlay.classList.add('hidden');
+        });
+    }
+
+    function initSmartChoiceTest() {
+        smartChoiceOverlay.classList.remove('hidden');
+        smartChoiceLessonSelector.classList.remove('hidden');
+        smartChoiceQuestionArea.classList.add('hidden');
+        smartChoiceResultArea.classList.add('hidden');
+        renderSmartChoiceLessonSelector();
+    }
+
+    function renderSmartChoiceLessonSelector() {
+        if (!smartChoiceLessonSelector) return;
+        smartChoiceLessonSelector.innerHTML = '';
+        const lessons = Object.keys(SMART_CHOICE_DATA);
+        lessons.forEach(lessonName => {
+            const btn = document.createElement('div');
+            btn.className = 'lesson-btn';
+            btn.textContent = lessonName;
+            btn.onclick = () => {
+                startSmartChoiceLesson(lessonName);
+            };
+            smartChoiceLessonSelector.appendChild(btn);
+        });
+    }
+
+    function startSmartChoiceLesson(lessonName) {
+        currentSmartChoiceLesson = lessonName;
+        currentSmartChoiceWords = SMART_CHOICE_DATA[lessonName];
+        currentSmartChoiceIndex = 0;
+        smartChoiceResults = [];
+        smartChoiceLessonSelector.classList.add('hidden');
+        smartChoiceQuestionArea.classList.remove('hidden');
+        showSmartChoiceQuestion();
+    }
+
+    function showSmartChoiceQuestion() {
+        const wordObj = currentSmartChoiceWords[currentSmartChoiceIndex];
+        smartChoiceProgress.textContent = `${currentSmartChoiceLesson} - 題目 ${currentSmartChoiceIndex + 1} / ${currentSmartChoiceWords.length}`;
+        
+        // Hide Chinese output completely
+        smartChoiceChineseDisplay.textContent = '';
+        smartChoiceSentenceDisplay.innerHTML = wordObj.sentence.replace('_____', '<span style="display:inline-block; min-width: 80px; border-bottom: 2px solid #ef4444;"></span>');
+        smartChoiceAnswerInput.value = '';
+        if (smartChoiceChineseInput) smartChoiceChineseInput.value = '';
+        smartChoiceFeedback.textContent = '';
+        smartChoiceWaitingForManualNext = false;
+        currentSmartChoiceWrongAttempts = 0; // Reset attempts for a new question
+        
+        // Conditional showing of prev button
+        if (btnSmartChoicePrev) {
+            btnSmartChoicePrev.style.display = currentSmartChoiceIndex > 0 ? "block" : "none";
+        }
+
+        smartChoiceAnswerInput.focus();
+    }
+
+    function checkSmartChoiceAnswer() {
+        if (smartChoiceWaitingForManualNext) {
+            nextSmartChoiceQuestion();
+            return;
+        }
+
+        const userInput = smartChoiceAnswerInput.value.trim().toLowerCase();
+        const userChineseInput = smartChoiceChineseInput ? smartChoiceChineseInput.value.trim() : '';
+        const correctWord = currentSmartChoiceWords[currentSmartChoiceIndex].word.toLowerCase();
+        const correctChinese = currentSmartChoiceWords[currentSmartChoiceIndex].chinese;
+        const acceptedWords = currentSmartChoiceWords[currentSmartChoiceIndex].accepted || [correctWord];
+        
+        const acceptedChineseList = correctChinese.split(/[；;、,，]/).map(c => c.trim()).filter(Boolean);
+        
+        let isWordCorrect = acceptedWords.some(w => w.toLowerCase() === userInput);
+        let isChineseCorrect = acceptedChineseList.some(c => c === userChineseInput);
+
+        let isCorrect = isWordCorrect && isChineseCorrect;
+
+        if (isCorrect) {
+            smartChoiceResults.push({
+                word: currentSmartChoiceWords[currentSmartChoiceIndex].word,
+                userInput: userInput,
+                isCorrect: true,
+                chinese: correctChinese,
+                sentence: currentSmartChoiceWords[currentSmartChoiceIndex].sentence
+            });
+            smartChoiceFeedback.innerHTML = '<span class="gloria-correct">✓ 完全正確！</span>';
+            setTimeout(() => nextSmartChoiceQuestion(), 500);
+        } else {
+            currentSmartChoiceWrongAttempts++;
+            if (currentSmartChoiceWrongAttempts >= 3) {
+                smartChoiceResults.push({
+                    word: currentSmartChoiceWords[currentSmartChoiceIndex].word,
+                    userInput: userInput,
+                    isCorrect: false,
+                    chinese: correctChinese,
+                    sentence: currentSmartChoiceWords[currentSmartChoiceIndex].sentence
+                });
+                let correctAnswersStr = acceptedWords.join(' 或 ');
+                smartChoiceFeedback.innerHTML = `<span class="gloria-incorrect" style="color: #ef4444;">✗ 錯誤！答案是: ${correctAnswersStr} (${correctChinese})</span>`;
+                smartChoiceWaitingForManualNext = true;         
+            } else {
+                let errorMsg = '✗ 答錯了！';
+                if (!isWordCorrect && isChineseCorrect) errorMsg = '✗ 英文單字錯誤！';
+                else if (isWordCorrect && !isChineseCorrect) errorMsg = '✗ 中文翻譯錯誤！';
+                
+                smartChoiceFeedback.innerHTML = `<span class="gloria-incorrect" style="color: #f59e0b;">${errorMsg} 再試一次 (${currentSmartChoiceWrongAttempts}/3)</span>`;
+                
+                if (!isWordCorrect) {
+                    smartChoiceAnswerInput.value = '';
+                    smartChoiceAnswerInput.focus();
+                } else if (!isChineseCorrect && smartChoiceChineseInput) {
+                    smartChoiceChineseInput.value = '';
+                    smartChoiceChineseInput.focus();
+                }
+            }
+        }
+    }
+
+    function nextSmartChoiceQuestion() {
+        currentSmartChoiceIndex++;
+        if (currentSmartChoiceIndex < currentSmartChoiceWords.length) {
+            showSmartChoiceQuestion();
+        } else {
+            showSmartChoiceResults();
+        }
+    }
+
+    function showSmartChoiceResults() {
+        smartChoiceQuestionArea.classList.add('hidden');
+        smartChoiceResultArea.classList.remove('hidden');
+        if (smartChoiceResultTitle) smartChoiceResultTitle.textContent = `${currentSmartChoiceLesson} 測驗完成！`;
+
+        const correctCount = smartChoiceResults.filter(r => r.isCorrect).length;
+        const accuracy = Math.round((correctCount / smartChoiceResults.length) * 100);
+        smartChoiceAccuracy.textContent = `${accuracy}%`;
+
+        smartChoiceResultList.innerHTML = '';
+        smartChoiceResults.forEach((res, index) => {
+            const item = document.createElement('div');
+            item.className = 'result-item';
+            item.innerHTML = `
+                <div class="result-status ${res.isCorrect ? 'status-correct' : 'status-incorrect'}">
+                    ${res.isCorrect ? '✓' : '✗'}
+                </div>
+                <div class="result-info">
+                    <strong>${res.word} (${res.chinese})</strong>
+                    <span>${res.isCorrect ? '正確' : `錯誤 (你寫成: ${res.userInput || '空白'})`}</span>
+                    <div style="font-size: 0.9rem; color: #666; margin-top: 5px;">${res.sentence.replace('_____', `<u>${res.word}</u>`)}</div>
+                </div>
+            `;
+            smartChoiceResultList.appendChild(item);
         });
     }
 
@@ -925,7 +1170,7 @@ document.addEventListener('DOMContentLoaded', () => {
         speechInitialized = true;
     }
 
-    function speak(text) {
+    function speak(text, rate = 0.55) {
         if (!('speechSynthesis' in window)) return;
 
         // Cancel existing to avoid queuing blocks on mobile
@@ -941,7 +1186,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         utterance.lang = 'en-US';
-        utterance.rate = 0.55;
+        utterance.rate = rate;
         utterance.volume = 1.0;
 
         // Some mobile browsers need a resume if they stuck
