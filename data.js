@@ -636,3 +636,710 @@ const SMART_CHOICE_DATA = {
         { word: "flash", chinese: "閃光燈", sentence: "A _____ is used to light a person or a scene when taking pictures.", accepted: ["flash"] }
     ]
 };
+
+
+const IDIOMS_DATA = {
+    "Unit 1": [
+        {
+            "word": "according to",
+            "chinese": "根據",
+            "sentence": "_____ the weather forecast, it's going to be a rainy day tomorrow.",
+            "accepted": [
+                "according to"
+            ]
+        },
+        {
+            "word": "all along",
+            "chinese": "一直；從一開始",
+            "sentence": "He knew about our plan _____.",
+            "accepted": [
+                "all along"
+            ]
+        },
+        {
+            "word": "all in all",
+            "chinese": "整體而言",
+            "sentence": "_____, I feel pretty happy about my school life.",
+            "accepted": [
+                "all in all"
+            ]
+        }
+    ],
+    "Unit 2": [
+        {
+            "word": "all of a sudden",
+            "chinese": "突然地",
+            "sentence": "She passed out _____.",
+            "accepted": [
+                "all of a sudden"
+            ]
+        },
+        {
+            "word": "as a matter of fact",
+            "chinese": "事實上",
+            "sentence": "I am not a fan of heavy metal music. _____, I hate loud music.",
+            "accepted": [
+                "as a matter of fact",
+                "in fact"
+            ]
+        },
+        {
+            "word": "as long as",
+            "chinese": "只要",
+            "sentence": "You will get good grades _____ you study hard for tests.",
+            "accepted": [
+                "as long as"
+            ]
+        }
+    ],
+    "Unit 3": [
+        {
+            "word": "as soon as",
+            "chinese": "一...就...",
+            "sentence": "She turns on the TV _____ she gets home.",
+            "accepted": [
+                "as soon as"
+            ]
+        },
+        {
+            "word": "as usual",
+            "chinese": "一如往常",
+            "sentence": "The lazy boy is late for school _____.",
+            "accepted": [
+                "as usual"
+            ]
+        },
+        {
+            "word": "at last",
+            "chinese": "終於",
+            "sentence": "We finished painting the fence _____.",
+            "accepted": [
+                "at last"
+            ]
+        }
+    ],
+    "Unit 4": [
+        {
+            "word": "at least",
+            "chinese": "至少",
+            "sentence": "You should spend _____ thirty minutes exercising every day.",
+            "accepted": [
+                "at least"
+            ]
+        },
+        {
+            "word": "be about to",
+            "chinese": "正要去",
+            "sentence": "They _____ go on vacation.",
+            "accepted": [
+                "are about to",
+                "be about to"
+            ]
+        },
+        {
+            "word": "be aware of",
+            "chinese": "知道",
+            "sentence": "The victim _____ what was going on.",
+            "accepted": [
+                "was not aware of",
+                "wasn't aware of",
+                "be aware of",
+                "was aware of"
+            ]
+        }
+    ],
+    "Unit 5": [
+        {
+            "word": "be different from",
+            "chinese": "和...不同",
+            "sentence": "My car _____ yours.",
+            "accepted": [
+                "is different from",
+                "be different from"
+            ]
+        },
+        {
+            "word": "be famous for",
+            "chinese": "以...聞名",
+            "sentence": "Taiwan _____ its delicious food.",
+            "accepted": [
+                "is famous for",
+                "be famous for"
+            ]
+        },
+        {
+            "word": "be in charge of",
+            "chinese": "負責",
+            "sentence": "The children _____ their parents' wedding anniversary party.",
+            "accepted": [
+                "are in charge of",
+                "be in charge of"
+            ]
+        }
+    ],
+    "Unit 6": [
+        {
+            "word": "be on a diet",
+            "chinese": "節食",
+            "sentence": "I am too heavy. I need to _____.",
+            "accepted": [
+                "be on a diet"
+            ]
+        },
+        {
+            "word": "be proud of",
+            "chinese": "感到驕傲",
+            "sentence": "Sue's parents are very _____ her performance.",
+            "accepted": [
+                "proud of",
+                "be proud of",
+                "are proud of"
+            ]
+        },
+        {
+            "word": "be supposed to",
+            "chinese": "應該",
+            "sentence": "Young children _____ go to bed early.",
+            "accepted": [
+                "are supposed to",
+                "be supposed to"
+            ]
+        }
+    ],
+    "Unit 7": [
+        {
+            "word": "be used to",
+            "chinese": "習慣",
+            "sentence": "Sandy _____ getting up early.",
+            "accepted": [
+                "is used to",
+                "be used to"
+            ]
+        },
+        {
+            "word": "believe in",
+            "chinese": "相信",
+            "sentence": "A lot of people _____ ghosts.",
+            "accepted": [
+                "believe in"
+            ]
+        },
+        {
+            "word": "break down",
+            "chinese": "故障",
+            "sentence": "My car _____ on my way to work.",
+            "accepted": [
+                "broke down",
+                "break down"
+            ]
+        }
+    ],
+    "Unit 8": [
+        {
+            "word": "break up with",
+            "chinese": "分手",
+            "sentence": "She is sad because her boyfriend wants to _____ her.",
+            "accepted": [
+                "break up with",
+                "break up"
+            ]
+        },
+        {
+            "word": "burn down",
+            "chinese": "燒毀",
+            "sentence": "The children played with fire and _____ their house.",
+            "accepted": [
+                "burned down",
+                "burn down"
+            ]
+        },
+        {
+            "word": "burn up",
+            "chinese": "燒光",
+            "sentence": "Mary didn't want anyone to see the letter, so she _____.",
+            "accepted": [
+                "burned it up",
+                "burn up",
+                "burned up"
+            ]
+        }
+    ],
+    "Unit 9": [
+        {
+            "word": "by heart",
+            "chinese": "記住",
+            "sentence": "He remembers everyone he has met _____.",
+            "accepted": [
+                "by heart"
+            ]
+        },
+        {
+            "word": "by the way",
+            "chinese": "附帶一提",
+            "sentence": "I like pop music. _____, would you like to go to the concert with me?",
+            "accepted": [
+                "by the way",
+                "By the way"
+            ]
+        },
+        {
+            "word": "can't wait to",
+            "chinese": "等不及",
+            "sentence": "I _____ see my family since I have been away from them for many years.",
+            "accepted": [
+                "can't wait to",
+                "cannot wait to"
+            ]
+        }
+    ],
+    "Unit 10": [
+        {
+            "word": "can't help but",
+            "chinese": "忍不住",
+            "sentence": "I _____ wonder if I made a mistake.",
+            "accepted": [
+                "can't help but",
+                "cannot help but",
+                "can't help"
+            ]
+        },
+        {
+            "word": "can't stand",
+            "chinese": "受不了",
+            "sentence": "She _____ any noise.",
+            "accepted": [
+                "can't stand",
+                "cannot stand"
+            ]
+        },
+        {
+            "word": "call off",
+            "chinese": "取消",
+            "sentence": "The sports event was _____ because of the rain.",
+            "accepted": [
+                "called off",
+                "call off"
+            ]
+        }
+    ],
+    "Unit 11": [
+        {
+            "word": "catch up with",
+            "chinese": "跟得上",
+            "sentence": "He is running so fast that I can't _____ him.",
+            "accepted": [
+                "catch up with"
+            ]
+        },
+        {
+            "word": "change one's mind",
+            "chinese": "改變心意",
+            "sentence": "We have _____ and are going to go camping instead of going to the beach this weekend.",
+            "accepted": [
+                "changed our mind",
+                "change our mind",
+                "change one's mind"
+            ]
+        },
+        {
+            "word": "check in",
+            "chinese": "住房登記",
+            "sentence": "The earliest you can _____ the room is 3:00 p.m.",
+            "accepted": [
+                "check in"
+            ]
+        }
+    ],
+    "Unit 12": [
+        {
+            "word": "check out",
+            "chinese": "結帳離開",
+            "sentence": "We should _____ of the hotel before noon.",
+            "accepted": [
+                "check out"
+            ]
+        },
+        {
+            "word": "cheer up",
+            "chinese": "使高興",
+            "sentence": "The parents are trying to _____ the crying baby _____. (請輸入完整片語)",
+            "accepted": [
+                "cheer up"
+            ]
+        },
+        {
+            "word": "come up with",
+            "chinese": "想出",
+            "sentence": "We should have a meeting and _____ a better idea.",
+            "accepted": [
+                "come up with"
+            ]
+        }
+    ],
+    "Unit 13": [
+        {
+            "word": "count on",
+            "chinese": "依靠",
+            "sentence": "You can _____ him. He is really trustworthy.",
+            "accepted": [
+                "count on"
+            ]
+        },
+        {
+            "word": "cross out",
+            "chinese": "劃線刪除",
+            "sentence": "You may want to _____ the last line because it seems inappropriate.",
+            "accepted": [
+                "cross out"
+            ]
+        },
+        {
+            "word": "deal with",
+            "chinese": "處理",
+            "sentence": "I don't know how to _____ the problem now.",
+            "accepted": [
+                "deal with"
+            ]
+        }
+    ],
+    "Unit 14": [
+        {
+            "word": "due to",
+            "chinese": "由於",
+            "sentence": "The airport is closed temporarily _____ the bad weather.",
+            "accepted": [
+                "due to"
+            ]
+        },
+        {
+            "word": "either ... or ...",
+            "chinese": "不是...就是...",
+            "sentence": "_____ you or I am right.",
+            "accepted": [
+                "either",
+                "either or",
+                "either or",
+                "either...or..."
+            ]
+        },
+        {
+            "word": "neither ... nor ...",
+            "chinese": "既不是...也不是...",
+            "sentence": "He likes _____ Jolin nor Eva.",
+            "accepted": [
+                "neither",
+                "neither nor",
+                "neither...nor..."
+            ]
+        }
+    ],
+    "Unit 15": [
+        {
+            "word": "end up",
+            "chinese": "最後",
+            "sentence": "They _____ cooking at home instead of going to a restaurant.",
+            "accepted": [
+                "ended up",
+                "end up"
+            ]
+        },
+        {
+            "word": "fade away",
+            "chinese": "逐漸消失",
+            "sentence": "The memory of the bad experience will _____.",
+            "accepted": [
+                "fade away"
+            ]
+        },
+        {
+            "word": "fall in love",
+            "chinese": "墜入情網",
+            "sentence": "The prince _____ with the princess at first sight.",
+            "accepted": [
+                "fell in love",
+                "fall in love"
+            ]
+        }
+    ],
+    "Unit 16": [
+        {
+            "word": "feel like",
+            "chinese": "想要",
+            "sentence": "What do you _____ doing tonight?",
+            "accepted": [
+                "feel like"
+            ]
+        },
+        {
+            "word": "figure out",
+            "chinese": "找出答案",
+            "sentence": "You have to _____ the answer to the question yourself.",
+            "accepted": [
+                "figure out"
+            ]
+        },
+        {
+            "word": "find out",
+            "chinese": "發現",
+            "sentence": "Let's _____ what was going on together.",
+            "accepted": [
+                "find out"
+            ]
+        }
+    ],
+    "Unit 17": [
+        {
+            "word": "for good",
+            "chinese": "永久",
+            "sentence": "Are you leaving this country _____?",
+            "accepted": [
+                "for good"
+            ]
+        },
+        {
+            "word": "for sale",
+            "chinese": "待售",
+            "sentence": "That house is _____. Would you like to go and have a look?",
+            "accepted": [
+                "for sale"
+            ]
+        },
+        {
+            "word": "get along with",
+            "chinese": "相處融洽",
+            "sentence": "She has a bad temper. She can never _____ anybody.",
+            "accepted": [
+                "get along with",
+                "get along"
+            ]
+        }
+    ],
+    "Unit 18": [
+        {
+            "word": "get in",
+            "chinese": "上車",
+            "sentence": "_____ the car. We are about to leave.",
+            "accepted": [
+                "get in",
+                "Get in"
+            ]
+        },
+        {
+            "word": "get out of",
+            "chinese": "下車",
+            "sentence": "Why don't we stop here and _____ the car to take a break?",
+            "accepted": [
+                "get out of"
+            ]
+        },
+        {
+            "word": "get lost",
+            "chinese": "迷路",
+            "sentence": "If you follow the directions, you won't _____.",
+            "accepted": [
+                "get lost"
+            ]
+        }
+    ],
+    "Unit 19": [
+        {
+            "word": "get over",
+            "chinese": "走出傷痛",
+            "sentence": "It took Mr. White years to _____ the death of his wife.",
+            "accepted": [
+                "get over"
+            ]
+        },
+        {
+            "word": "get rid of",
+            "chinese": "去除",
+            "sentence": "You should _____ all your bad habits.",
+            "accepted": [
+                "get rid of"
+            ]
+        },
+        {
+            "word": "get used to",
+            "chinese": "適應",
+            "sentence": "We have to _____ our new lives as soon as possible.",
+            "accepted": [
+                "get used to"
+            ]
+        }
+    ],
+    "Unit 20": [
+        {
+            "word": "give birth to",
+            "chinese": "生小孩",
+            "sentence": "Susan has just _____ a baby girl.",
+            "accepted": [
+                "given birth to",
+                "give birth to"
+            ]
+        },
+        {
+            "word": "give someone a break",
+            "chinese": "饒了某人",
+            "sentence": "The students begged their teacher to _____ because he gave them a lot of homework.",
+            "accepted": [
+                "give them a break",
+                "give someone a break"
+            ]
+        },
+        {
+            "word": "give up",
+            "chinese": "放棄",
+            "sentence": "Don't _____. I believe you can make it.",
+            "accepted": [
+                "give up"
+            ]
+        }
+    ],
+    "Unit 21": [
+        {
+            "word": "had better",
+            "chinese": "最好",
+            "sentence": "It's late. I _____ go home right now.",
+            "accepted": [
+                "had better"
+            ]
+        },
+        {
+            "word": "hand in",
+            "chinese": "繳交",
+            "sentence": "Please _____ your homework before you leave.",
+            "accepted": [
+                "hand in"
+            ]
+        },
+        {
+            "word": "hang out",
+            "chinese": "閒逛",
+            "sentence": "He usually _____ with his friends at the mall after school.",
+            "accepted": [
+                "hangs out",
+                "hang out"
+            ]
+        }
+    ],
+    "Unit 22": [
+        {
+            "word": "in case",
+            "chinese": "以防",
+            "sentence": "Take an umbrella _____ it rains.",
+            "accepted": [
+                "in case",
+                "in case of"
+            ]
+        },
+        {
+            "word": "in order to",
+            "chinese": "為了",
+            "sentence": "You should study hard for the tests _____ get good grades.",
+            "accepted": [
+                "in order to"
+            ]
+        },
+        {
+            "word": "in the long run",
+            "chinese": "最後",
+            "sentence": "_____, you will find out what you have learned from school is very useful.",
+            "accepted": [
+                "in the long run",
+                "In the long run"
+            ]
+        }
+    ],
+    "Unit 23": [
+        {
+            "word": "in time",
+            "chinese": "及時",
+            "sentence": "The fireman saved the little girl just _____.",
+            "accepted": [
+                "in time"
+            ]
+        },
+        {
+            "word": "in vain",
+            "chinese": "徒勞無功",
+            "sentence": "Every effort he tried was _____.",
+            "accepted": [
+                "in vain"
+            ]
+        },
+        {
+            "word": "keep away from",
+            "chinese": "遠離",
+            "sentence": "_____ the construction area. It's very dangerous.",
+            "accepted": [
+                "keep away from",
+                "Keep away from"
+            ]
+        }
+    ],
+    "Unit 24": [
+        {
+            "word": "keep in mind",
+            "chinese": "牢記在心",
+            "sentence": "I will _____ that I promised to help you.",
+            "accepted": [
+                "keep in mind"
+            ]
+        },
+        {
+            "word": "keep out",
+            "chinese": "禁止進入",
+            "sentence": "The sign on the door says, 'Danger! _____!'",
+            "accepted": [
+                "keep out",
+                "Keep out"
+            ]
+        },
+        {
+            "word": "keep track of",
+            "chinese": "做記錄",
+            "sentence": "She _____ all of her purchases.",
+            "accepted": [
+                "keeps track of",
+                "keep track of"
+            ]
+        }
+    ],
+    "Unit 25": [
+        {
+            "word": "keep up with",
+            "chinese": "跟上",
+            "sentence": "I can't _____ you. Please walk slower.",
+            "accepted": [
+                "keep up with"
+            ]
+        },
+        {
+            "word": "knock out",
+            "chinese": "擊倒",
+            "sentence": "He was _____ by the bully.",
+            "accepted": [
+                "knocked out",
+                "knock out"
+            ]
+        },
+        {
+            "word": "little by little",
+            "chinese": "逐漸地",
+            "sentence": "His health is getting worse _____ because of doing drugs.",
+            "accepted": [
+                "little by little"
+            ]
+        }
+    ],
+    "Unit 26": [
+        {
+            "word": "look after",
+            "chinese": "照顧",
+            "sentence": "I help _____ my baby brother when my parents are busy.",
+            "accepted": [
+                "look after"
+            ]
+        }
+    ]
+};

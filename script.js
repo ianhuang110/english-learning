@@ -1204,4 +1204,255 @@ document.addEventListener('DOMContentLoaded', () => {
             window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
         }
     }
+
+    // --- IDIOMS MODULE DOM & STATE ---
+    const btnIdioms = document.getElementById('btn-idioms');
+    const idiomsOverlay = document.getElementById('idioms-overlay');
+    const btnCloseIdioms = document.getElementById('btn-close-idioms');
+    const idiomsLessonSelector = document.getElementById('idioms-lesson-selector');
+    const idiomsQuestionArea = document.getElementById('idioms-question-area');
+    const idiomsProgress = document.getElementById('idioms-progress');
+    const idiomsSentenceDisplay = document.getElementById('idioms-sentence-display');
+    const idiomsAnswerInput = document.getElementById('idioms-answer-input');
+    const idiomsChineseInput = document.getElementById('idioms-chinese-input');
+    const btnIdiomsSubmit = document.getElementById('btn-idioms-submit');
+    const idiomsFeedback = document.getElementById('idioms-feedback');
+    const idiomsResultArea = document.getElementById('idioms-result-area');
+    const idiomsAccuracy = document.getElementById('idioms-accuracy');
+    const idiomsResultList = document.getElementById('idioms-result-list');
+    const idiomsResultTitle = document.getElementById('idioms-result-title');
+    const btnRestartIdioms = document.getElementById('btn-restart-idioms');
+    const btnCloseIdiomsFinal = document.getElementById('btn-close-idioms-final');
+    const btnIdiomsPrev = document.getElementById('btn-idioms-prev');
+    const btnIdiomsSpeak = document.getElementById('btn-idioms-speak');
+
+    let currentIdiomsWords = [];
+    let currentIdiomsIndex = 0;
+    let idiomsResults = [];
+    let currentIdiomsLesson = '';
+    let idiomsWaitingForManualNext = false;
+    let currentIdiomsWrongAttempts = 0;
+
+    // --- IDIOMS MODULE EVENTS ---
+    if (btnIdioms) {
+        btnIdioms.addEventListener('click', () => {
+            initIdiomsTest();
+        });
+    }
+
+    if (btnCloseIdioms) {
+        btnCloseIdioms.addEventListener('click', () => {
+            idiomsOverlay.classList.add('hidden');
+        });
+    }
+
+    if (btnIdiomsSpeak) {
+        btnIdiomsSpeak.addEventListener('click', () => {
+            if (currentIdiomsWords[currentIdiomsIndex]) {
+                speak(currentIdiomsWords[currentIdiomsIndex].word, 0.55); // Auto-assigned speed matching recent requests
+            }
+        });
+    }
+
+    if (btnIdiomsPrev) {
+        btnIdiomsPrev.addEventListener('click', () => {
+            if (currentIdiomsIndex > 0) {
+                currentIdiomsIndex--;
+                idiomsResults.pop();
+                showIdiomsQuestion();
+            }
+        });
+    }
+
+    if (btnIdiomsSubmit) {
+        btnIdiomsSubmit.addEventListener('click', () => {
+            checkIdiomsAnswer();
+        });
+    }
+
+    if (idiomsAnswerInput) {
+        idiomsAnswerInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') checkIdiomsAnswer();
+        });
+    }
+
+    if (idiomsChineseInput) {
+        idiomsChineseInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') checkIdiomsAnswer();
+        });
+    }
+
+    if (btnRestartIdioms) {
+        btnRestartIdioms.addEventListener('click', () => {
+            initIdiomsTest();
+        });
+    }
+
+    if (btnCloseIdiomsFinal) {
+        btnCloseIdiomsFinal.addEventListener('click', () => {
+            idiomsOverlay.classList.add('hidden');
+        });
+    }
+
+    // --- IDIOMS MODULE LOGIC ---
+    function initIdiomsTest() {
+        if (!idiomsOverlay) return;
+        idiomsOverlay.classList.remove('hidden');
+        idiomsLessonSelector.classList.remove('hidden');
+        idiomsQuestionArea.classList.add('hidden');
+        idiomsResultArea.classList.add('hidden');
+        renderIdiomsLessonSelector();
+    }
+
+    function renderIdiomsLessonSelector() {
+        if (!idiomsLessonSelector || typeof IDIOMS_DATA === 'undefined') return;
+        idiomsLessonSelector.innerHTML = '';
+        const lessons = Object.keys(IDIOMS_DATA);
+        lessons.forEach(lessonName => {
+            const btn = document.createElement('div');
+            btn.className = 'lesson-btn';
+            btn.textContent = lessonName;
+            btn.onclick = () => {
+                initSpeech(); // Ensures speech synthesis is initialized
+                startIdiomsLesson(lessonName);
+            };
+            idiomsLessonSelector.appendChild(btn);
+        });
+    }
+
+    function startIdiomsLesson(lessonName) {
+        currentIdiomsLesson = lessonName;
+        currentIdiomsWords = IDIOMS_DATA[lessonName];
+        currentIdiomsIndex = 0;
+        idiomsResults = [];
+        idiomsLessonSelector.classList.add('hidden');
+        idiomsQuestionArea.classList.remove('hidden');
+        showIdiomsQuestion();
+    }
+
+    function showIdiomsQuestion() {
+        const wordObj = currentIdiomsWords[currentIdiomsIndex];
+        idiomsProgress.textContent = `${currentIdiomsLesson} - 題目 ${currentIdiomsIndex + 1} / ${currentIdiomsWords.length}`;
+
+        // Create the sentence with a red blank
+        idiomsSentenceDisplay.innerHTML = wordObj.sentence.replace('_____', '<span style="display:inline-block; min-width: 80px; border-bottom: 2px solid #ef4444;"></span>');
+        
+        idiomsAnswerInput.value = '';
+        if (idiomsChineseInput) idiomsChineseInput.value = '';
+        idiomsFeedback.textContent = '';
+        idiomsWaitingForManualNext = false;
+        currentIdiomsWrongAttempts = 0;
+
+        if (btnIdiomsPrev) {
+            btnIdiomsPrev.style.display = currentIdiomsIndex > 0 ? "block" : "none";
+        }
+
+        idiomsAnswerInput.focus();
+
+        // Auto-play the idiom speech on question load
+        setTimeout(() => {
+            if (btnIdiomsSpeak) {
+               speak(currentIdiomsWords[currentIdiomsIndex].word, 0.55);
+            }
+        }, 100);
+    }
+
+    function checkIdiomsAnswer() {
+        if (idiomsWaitingForManualNext) {
+            nextIdiomsQuestion();
+            return;
+        }
+
+        const userInput = idiomsAnswerInput.value.trim().toLowerCase();
+        const userChineseInput = idiomsChineseInput ? idiomsChineseInput.value.trim() : '';
+        const correctWord = currentIdiomsWords[currentIdiomsIndex].word.toLowerCase();
+        const correctChinese = currentIdiomsWords[currentIdiomsIndex].chinese;
+        const acceptedWords = currentIdiomsWords[currentIdiomsIndex].accepted || [correctWord];
+        
+        const acceptedChineseList = correctChinese.split(/[；;、,，]/).map(c => c.trim()).filter(Boolean);
+        
+        // Exact match for English (user can enter conjugated variations if defined)
+        let isWordCorrect = acceptedWords.some(w => w.toLowerCase() === userInput);
+        
+        // Check if any matching translation
+        let isChineseCorrect = acceptedChineseList.some(c => c === userChineseInput);
+
+        let isCorrect = isWordCorrect && isChineseCorrect;
+
+        if (isCorrect) {
+            idiomsResults.push({
+                word: currentIdiomsWords[currentIdiomsIndex].word,
+                userInput: userInput,
+                isCorrect: true,
+                chinese: correctChinese,
+                sentence: currentIdiomsWords[currentIdiomsIndex].sentence
+            });
+            idiomsFeedback.innerHTML = '<span class="gloria-correct">✓ 完全正確！</span>';
+            setTimeout(() => nextIdiomsQuestion(), 500);
+        } else {
+            currentIdiomsWrongAttempts++;
+            if (currentIdiomsWrongAttempts >= 3) {
+                idiomsResults.push({
+                    word: currentIdiomsWords[currentIdiomsIndex].word,
+                    userInput: userInput,
+                    isCorrect: false,
+                    chinese: correctChinese,
+                    sentence: currentIdiomsWords[currentIdiomsIndex].sentence
+                });
+                let correctAnswersStr = acceptedWords.join(' 或 ');
+                idiomsFeedback.innerHTML = `<span class="gloria-incorrect" style="color: #ef4444;">✗ 錯誤！答案是: ${correctAnswersStr} (${correctChinese})</span>`;
+                idiomsWaitingForManualNext = true;         
+            } else {
+                let errorMsg = '✗ 答錯了！';
+                if (!isWordCorrect && isChineseCorrect) errorMsg = '✗ 英文片語錯誤！';
+                else if (isWordCorrect && !isChineseCorrect) errorMsg = '✗ 中文翻譯錯誤！';
+                
+                idiomsFeedback.innerHTML = `<span class="gloria-incorrect" style="color: #f59e0b;">${errorMsg} 再試一次 (${currentIdiomsWrongAttempts}/3)</span>`;
+                
+                if (!isWordCorrect) {
+                    idiomsAnswerInput.value = '';
+                    idiomsAnswerInput.focus();
+                } else if (!isChineseCorrect && idiomsChineseInput) {
+                    idiomsChineseInput.value = '';
+                    idiomsChineseInput.focus();
+                }
+            }
+        }
+    }
+
+    function nextIdiomsQuestion() {
+        currentIdiomsIndex++;
+        if (currentIdiomsIndex < currentIdiomsWords.length) {
+            showIdiomsQuestion();
+        } else {
+            showIdiomsResults();
+        }
+    }
+
+    function showIdiomsResults() {
+        idiomsQuestionArea.classList.add('hidden');
+        idiomsResultArea.classList.remove('hidden');
+        if (idiomsResultTitle) idiomsResultTitle.textContent = `${currentIdiomsLesson} 測驗完成！`;
+
+        const correctCount = idiomsResults.filter(r => r.isCorrect).length;
+        const accuracy = Math.round((correctCount / idiomsResults.length) * 100);
+        idiomsAccuracy.textContent = `${accuracy}%`;
+
+        idiomsResultList.innerHTML = '';
+        idiomsResults.forEach((res) => {
+            const item = document.createElement('div');
+            item.className = 'result-item';
+            item.innerHTML = `
+                <div class="result-status ${res.isCorrect ? 'status-correct' : 'status-incorrect'}">
+                    ${res.isCorrect ? '✓' : '✗'}
+                </div>
+                <div class="result-info">
+                    <strong>${res.word} (${res.chinese})</strong>
+                    <span>${res.isCorrect ? '正確' : `錯誤 (你寫成: ${res.userInput || '空白'})`}</span>
+                    <div style="font-size: 0.9rem; color: #666; margin-top: 5px;">${res.sentence.replace('_____', `<u>${res.word}</u>`)}</div>
+                </div>
+            `;
+            idiomsResultList.appendChild(item);
+        });
+    }
 });
