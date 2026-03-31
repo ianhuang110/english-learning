@@ -281,7 +281,7 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.className = 'lesson-btn';
             btn.textContent = lessonName;
             btn.onclick = () => {
-                startSmartChoiceLesson(lessonName);
+                initSpeech();\n                startSmartChoiceLesson(lessonName);
             };
             smartChoiceLessonSelector.appendChild(btn);
         });
