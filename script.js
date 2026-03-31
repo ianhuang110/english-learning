@@ -316,6 +316,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         smartChoiceAnswerInput.focus();
+
+        setTimeout(() => {
+            if (btnSmartChoiceSpeak) {
+                speak(currentSmartChoiceWords[currentSmartChoiceIndex].word, 0.55);
+            }
+        }, 100);
     }
 
     function checkSmartChoiceAnswer() {
